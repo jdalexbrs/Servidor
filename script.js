@@ -24,7 +24,6 @@ document.getElementById("postulacionForm").addEventListener("submit", async func
 
   for (let [key, value] of formData.entries()) {
     if (value.trim() !== "") {
-      // Puedes convertir “key” a algo más legible si quieres
       const nameFormatted = key.replace(/_/g, " ");
       fields.push({ name: nameFormatted, value: value });
     }
