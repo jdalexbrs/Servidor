@@ -1,62 +1,48 @@
-const webhookURL = "https://discord.com/api/webhooks/1423073398023651348/VAdkiXPoQYqI-feNKoiPuBTbwVEM-ORSNFOSTUANV1Bs_zYM1V6LPgBByoU6JBaCV7HT";
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario de Postulación - Godest</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <h1>🌟 Formulario de Postulación - Godest 🌟</h1>
 
-// Mostrar preguntas según el rol
-const rolSelect = document.getElementById("rolSelect");
-const staffDiv = document.getElementById("staffPreguntas");
-const devDiv = document.getElementById("devPreguntas");
-const betaDiv = document.getElementById("betaPreguntas");
+    <form id="formulario">
+        <h2>Información Básica</h2>
+        <label>Nick en Discord</label>
+        <input type="text" id="nick_discord" required>
 
-rolSelect.addEventListener("change", () => {
-  staffDiv.classList.add("oculto");
-  devDiv.classList.add("oculto");
-  betaDiv.classList.add("oculto");
-  if (rolSelect.value === "Staff") staffDiv.classList.remove("oculto");
-  if (rolSelect.value === "Dev") devDiv.classList.remove("oculto");
-  if (rolSelect.value === "Beta Tester") betaDiv.classList.remove("oculto");
-});
+        <label>Nick en Minecraft</label>
+        <input type="text" id="nick_mc" required>
 
-// Enviar datos al webhook
-document.getElementById("postulacionForm").addEventListener("submit", async function(e) {
-  e.preventDefault();
+        <h2>Rol a postular</h2>
+        <label><input type="radio" name="rol" value="Staff" required> Staff</label>
+        <label><input type="radio" name="rol" value="Dev"> Dev</label>
+        <label><input type="radio" name="rol" value="Beta Tester"> Beta Tester</label>
 
-  const formData = new FormData(e.target);
-  let fields = [];
+        <h2>Preguntas</h2>
+        <label>¿Por qué quieres ser staff/dev/beta tester?</label>
+        <textarea id="q1" required></textarea>
 
-  for (let [key, value] of formData.entries()) {
-    if (value.trim() !== "") {
-      const nameFormatted = key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
-      fields.push({ name: nameFormatted, value: value });
-    }
-  }
+        <label>Disponibilidad (horarios y días)</label>
+        <textarea id="q2" required></textarea>
 
-  const payload = {
-    embeds: [{
-      title: "📩 Nueva Postulación a Godest",
-      color: 0x5865f2,
-      fields: fields,
-      timestamp: new Date()
-    }]
-  };
+        <label>Experiencia previa en otros servidores</label>
+        <textarea id="q3"></textarea>
 
-  try {
-    let res = await fetch(webhookURL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    });
+        <label>¿Cómo te describirías en pocas palabras?</label>
+        <textarea id="q4"></textarea>
 
-    if (res.ok) {
-      alert("✅ Postulación enviada con éxito.");
-      e.target.reset();
-      staffDiv.classList.add("oculto");
-      devDiv.classList.add("oculto");
-      betaDiv.classList.add("oculto");
-    } else {
-      alert("❌ Error al enviar la postulación.");
-      console.error("Error al enviar al webhook:", res.status, await res.text());
-    }
-  } catch (err) {
-    alert("⚠️ Hubo un problema al conectar con Discord.");
-    console.error("Excepción al enviar al webhook:", err);
-  }
-});
+        <label>Otras motivaciones / comentarios</label>
+        <textarea id="q5"></textarea>
+
+        <button type="submit">Enviar Formulario 🚀</button>
+    </form>
+</div>
+
+<script src="form.js"></script>
+</body>
+</html>
