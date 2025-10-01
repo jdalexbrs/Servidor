@@ -12,6 +12,7 @@
       <h1>🌟 Formulario de Postulación 🌟</h1>
       <p class="subtitle">¿Quieres formar parte del Staff Team de <b>Godest</b>? Completa este formulario y tu postulación se enviará a nuestro Discord.</p>
 
+      <!-- Sección 1: Información básica -->
       <h2>Información Básica</h2>
       <label>Nick en Discord *</label>
       <input type="text" name="discord" placeholder="mini_jdalex_brs" required>
@@ -19,9 +20,10 @@
       <label>Nick en Minecraft *</label>
       <input type="text" name="minecraft" placeholder="jdalexbrs" required>
 
-      <label>¿Has sido staff/dev/beta tester en otro servidor?</label>
-      <textarea name="experiencia" rows="3" placeholder="Ej: Servidor XYZ, Rol, Fecha"></textarea>
+      <label>Experiencia previa como Staff/Dev/Beta Tester</label>
+      <textarea name="experiencia" rows="3" placeholder="Servidor, rol, fecha"></textarea>
 
+      <!-- Sección 2: Disponibilidad -->
       <h2>Disponibilidad</h2>
       <label>País y zona horaria *</label>
       <input type="text" name="pais" placeholder="España: GMT+2" required>
@@ -31,11 +33,17 @@
 
       <label>Días disponibles *</label>
       <select name="dias" required>
-        <option>Lunes a Viernes</option>
-        <option>Fines de semana</option>
-        <option>Todos los días</option>
+        <option>Lunes</option>
+        <option>Martes</option>
+        <option>Miércoles</option>
+        <option>Jueves</option>
+        <option>Viernes</option>
+        <option>Sábado</option>
+        <option>Domingo</option>
+        <option>Todas las anteriores</option>
       </select>
 
+      <!-- Sección 3: Rol -->
       <h2>Rol</h2>
       <label>¿A qué rol te postulas? *</label>
       <select name="rol" id="rolSelect" required>
@@ -47,39 +55,73 @@
       <!-- Preguntas Staff -->
       <div id="staffPreguntas" class="oculto">
         <h2>Preguntas Staff</h2>
-        <label>En caso de que 2 usuarios se peleen, ¿qué harías?</label>
-        <textarea name="staff_pelea" placeholder="Tu respuesta..."></textarea>
-        <label>Si un amigo tuyo rompe las reglas, ¿cómo reaccionarías?</label>
-        <textarea name="staff_amigo" placeholder="Tu respuesta..."></textarea>
-        <label>¿Por qué deberíamos elegirte a ti?</label>
-        <textarea name="staff_eleccion" placeholder="Tu respuesta..."></textarea>
+        <label>En caso de que 2 usuarios se peleen, ¿qué harías? *</label>
+        <textarea name="staff_pelea" placeholder="Tu respuesta..." required></textarea>
+
+        <label>Ves a un amigo tuyo rompiendo las reglas, ¿cómo reaccionarías? *</label>
+        <textarea name="staff_amigo" placeholder="Tu respuesta..." required></textarea>
+
+        <label>En caso de que asciendas a manager, ¿cómo sería tu comportamiento? *</label>
+        <textarea name="staff_comportamiento" placeholder="Tu respuesta..." required></textarea>
+
+        <label>¿Por qué deberíamos elegirte a ti y no a otro postulante? *</label>
+        <textarea name="staff_eleccion" placeholder="Tu respuesta..." required></textarea>
+
+        <label>¿Por qué quieres ser staff dentro del servidor? *</label>
+        <textarea name="staff_motivo" placeholder="Tu respuesta..." required></textarea>
+
+        <label>¿Qué significa para ti ser staff en Godest? *</label>
+        <textarea name="staff_significado" placeholder="Tu respuesta..." required></textarea>
+
+        <label>¿Cómo te describirías en pocas palabras? *</label>
+        <textarea name="staff_descripcion" placeholder="Tu respuesta..." required></textarea>
+
+        <label>¿Respetarías las decisiones del staff superior aunque no estés de acuerdo? *</label>
+        <textarea name="staff_respetar" placeholder="Tu respuesta..." required></textarea>
+
+        <label>¿Qué harías para mejorar la comunidad si fueras staff? *</label>
+        <textarea name="staff_mejorar" placeholder="Tu respuesta..." required></textarea>
       </div>
 
       <!-- Preguntas Dev -->
       <div id="devPreguntas" class="oculto">
         <h2>Preguntas Dev</h2>
-        <label>¿Qué lenguajes de programación dominas?</label>
-        <textarea name="dev_lenguajes" placeholder="Ej: Java, JS, Python"></textarea>
-        <label>¿Sabes manejar eventos de Minecraft en código?</label>
-        <select name="dev_eventos">
+        <label>Qué lenguajes de programación dominas *</label>
+        <textarea name="dev_lenguajes" placeholder="Ej: Java, JS, Python" required></textarea>
+
+        <label>¿Qué significa para ti ser staff en un servidor de Minecraft? *</label>
+        <textarea name="dev_significado" placeholder="Tu respuesta..." required></textarea>
+
+        <label>¿Sabes manejar eventos de Minecraft en código? *</label>
+        <select name="dev_eventos" required>
           <option>Sí</option>
           <option>No</option>
         </select>
-        <label>¿Por qué quieres ser Dev en Godest?</label>
-        <textarea name="dev_motivo" placeholder="Tu respuesta..."></textarea>
+
+        <label>¿Por qué quieres ser Dev en Godest? *</label>
+        <textarea name="dev_motivo" placeholder="Tu respuesta..." required></textarea>
       </div>
 
       <!-- Preguntas Beta Tester -->
       <div id="betaPreguntas" class="oculto">
         <h2>Preguntas Beta Tester</h2>
-        <label>¿Cuánto tiempo llevas jugando Minecraft?</label>
-        <input type="text" name="beta_tiempo" placeholder="Ej: 2 años">
-        <label>¿Qué aspectos disfrutas más probar?</label>
-        <textarea name="beta_aspectos" placeholder="Ej: minijuegos, survival, PvP"></textarea>
-        <label>¿Cómo reportarías un bug?</label>
-        <textarea name="beta_bug" placeholder="Explica cómo reportarías un error"></textarea>
-        <label>¿Por qué quieres ser Beta Tester?</label>
-        <textarea name="beta_motivo" placeholder="Tu respuesta..."></textarea>
+        <label>¿Cuánto tiempo llevas jugando Minecraft? *</label>
+        <input type="text" name="beta_tiempo" placeholder="Ej: 2 años" required>
+
+        <label>¿Has sido tester en algún otro servidor/juego? *</label>
+        <textarea name="beta_experiencia" placeholder="Servidor/Juego y rol" required></textarea>
+
+        <label>¿Qué aspectos disfrutas más probar? *</label>
+        <textarea name="beta_aspectos" placeholder="Ej: minijuegos, survival, PvP" required></textarea>
+
+        <label>¿Cómo reportarías un bug de manera clara y útil? *</label>
+        <textarea name="beta_bug" placeholder="Explica cómo reportarías un error" required></textarea>
+
+        <label>¿Por qué quieres ser Beta Tester en Godest? *</label>
+        <textarea name="beta_motivo" placeholder="Tu respuesta..." required></textarea>
+
+        <label>¿Estarías dispuesto a probar cosas repetidamente hasta dar con un error? *</label>
+        <textarea name="beta_repetir" placeholder="Sí/No y explicación" required></textarea>
       </div>
 
       <button type="submit">🚀 Enviar Postulación</button>
