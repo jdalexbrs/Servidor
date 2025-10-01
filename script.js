@@ -1,6 +1,6 @@
 const webhookURL = "https://discord.com/api/webhooks/1423073398023651348/VAdkiXPoQYqI-feNKoiPuBTbwVEM-ORSNFOSTUANV1Bs_zYM1V6LPgBByoU6JBaCV7HT";
 
-// Mostrar preguntas según el rol elegido
+// Mostrar preguntas según el rol
 const rolSelect = document.getElementById("rolSelect");
 const staffDiv = document.getElementById("staffPreguntas");
 const devDiv = document.getElementById("devPreguntas");
@@ -24,7 +24,7 @@ document.getElementById("postulacionForm").addEventListener("submit", async func
 
   for (let [key, value] of formData.entries()) {
     if (value.trim() !== "") {
-      const nameFormatted = key.replace(/_/g, " ");
+      const nameFormatted = key.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase());
       fields.push({ name: nameFormatted, value: value });
     }
   }
