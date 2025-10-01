@@ -1,48 +1,32 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Formulario de Postulación - Godest</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="container">
-    <h1>🌟 Formulario de Postulación - Godest 🌟</h1>
+document.getElementById("formulario").addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-    <form id="formulario">
-        <h2>Información Básica</h2>
-        <label>Nick en Discord</label>
-        <input type="text" id="nick_discord" required>
+    const payload = {
+        nick_discord: document.getElementById("nick_discord").value,
+        nick_mc: document.getElementById("nick_mc").value,
+        rol: document.querySelector('input[name="rol"]:checked').value,
+        respuestas: {
+            "¿Por qué quieres ser staff/dev/beta tester?": document.getElementById("q1").value,
+            "Disponibilidad (horarios y días)": document.getElementById("q2").value,
+            "Experiencia previa en otros servidores": document.getElementById("q3").value,
+            "¿Cómo te describirías en pocas palabras?": document.getElementById("q4").value,
+            "Otras motivaciones / comentarios": document.getElementById("q5").value
+        }
+    };
 
-        <label>Nick en Minecraft</label>
-        <input type="text" id="nick_mc" required>
+    try {
+        const res = await fetch("http://TU_SERVIDOR:5000/postulacion", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if(data.ok) alert("Formulario enviado correctamente ✅");
+        else alert("Error al enviar ❌");
+    } catch (err) {
+        console.error(err);
+        alert("Error al conectar con el servidor ❌");
+    }
 
-        <h2>Rol a postular</h2>
-        <label><input type="radio" name="rol" value="Staff" required> Staff</label>
-        <label><input type="radio" name="rol" value="Dev"> Dev</label>
-        <label><input type="radio" name="rol" value="Beta Tester"> Beta Tester</label>
-
-        <h2>Preguntas</h2>
-        <label>¿Por qué quieres ser staff/dev/beta tester?</label>
-        <textarea id="q1" required></textarea>
-
-        <label>Disponibilidad (horarios y días)</label>
-        <textarea id="q2" required></textarea>
-
-        <label>Experiencia previa en otros servidores</label>
-        <textarea id="q3"></textarea>
-
-        <label>¿Cómo te describirías en pocas palabras?</label>
-        <textarea id="q4"></textarea>
-
-        <label>Otras motivaciones / comentarios</label>
-        <textarea id="q5"></textarea>
-
-        <button type="submit">Enviar Formulario 🚀</button>
-    </form>
-</div>
-
-<script src="form.js"></script>
-</body>
-</html>
+    document.getElementById("formulario").reset();
+});
