@@ -1,94 +1,58 @@
 body {
-  font-family: 'Roboto', sans-serif;
-  background: linear-gradient(135deg, #0f0f1f, #1b1b2f);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#1abc9c,#3498db);
+    color: #fff;
+    margin: 0;
+    padding: 0;
 }
 
 .container {
-  width: 100%;
-  max-width: 700px;
-  padding: 20px;
+    max-width: 700px;
+    margin: 50px auto;
+    background: rgba(0,0,0,0.5);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 
-form {
-  background: #27293d;
-  padding: 30px;
-  border-radius: 20px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-  color: #fff;
-}
-
-h1 {
-  text-align: center;
-  color: #ffcc00;
-  margin-bottom: 5px;
-}
-
-.subtitle {
-  text-align: center;
-  font-size: 14px;
-  margin-bottom: 20px;
-  color: #ccc;
-}
-
-h2 {
-  color: #ffdd59;
-  margin-top: 25px;
-  margin-bottom: 10px;
-  font-size: 18px;
+h1, h2 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 label {
-  display: block;
-  margin-top: 15px;
-  font-weight: 500;
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
 }
 
-input, select, textarea {
-  width: 100%;
-  margin-top: 6px;
-  padding: 12px;
-  border-radius: 12px;
-  border: none;
-  outline: none;
-  font-size: 14px;
-  background: #3b3b5a;
-  color: #fff;
-  transition: 0.2s;
-}
-
-input:focus, select:focus, textarea:focus {
-  background: #4b4b7a;
+input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
 }
 
 textarea {
-  resize: vertical;
+    resize: vertical;
+    min-height: 60px;
 }
 
 button {
-  margin-top: 25px;
-  padding: 15px;
-  width: 100%;
-  border: none;
-  border-radius: 15px;
-  background: #5865f2;
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
+    margin-top: 20px;
+    padding: 15px 25px;
+    width: 100%;
+    background: #e67e22;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 button:hover {
-  background: #4752c4;
-  transform: translateY(-2px);
-}
-
-.oculto {
-  display: none;
+    background: #d35400;
 }
