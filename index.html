@@ -468,4 +468,543 @@ const translations = {
     q7: "Dias disponíveis da semana",
     q8s: "Como você resolveria um conflito entre usuários?",
     q9s: "Por que você quer ser staff?",
-    q8d: "Quais linguagens
+    q8d: "Quais linguagens de programação você domina?",
+    q9d: "Você sabe lidar com eventos do Minecraft?",
+    q8b: "Por que você quer ser Beta Tester?",
+    q9b: "Você prefere testar mecânicas ou reportar bugs?",
+    q10: "Algo mais a acrescentar?",
+    qcaptcha: "Verificação anti-spam",
+    qemail: "Email (opcional para cópia)",
+    emailNote: "Se você fornecer seu email, enviaremos uma cópia da sua aplicação"
+  }
+};
+
+let currentLang = 'es';
+
+// Variables globales
+const form = document.getElementById("applyForm");
+const steps = Array.from(document.querySelectorAll(".step-card"));
+const bar = document.getElementById("bar");
+const currentStepEl = document.getElementById("currentStep");
+const totalStepsEl = document.getElementById("totalSteps");
+const prevBtn = document.getElementById("prevBtn");
+const nextBtn = document.getElementById("nextBtn");
+const sendBtn = document.getElementById("sendBtn");
+const themeToggle = document.getElementById("themeToggle");
+
+let stepIndex = 0;
+let chosenRole = null;
+let startTime = Date.now();
+let timerInterval;
+let autoSaveData = {};
+let captchaAnswer = 0;
+let lastSubmitTime = 0;
+const RATE_LIMIT_MS = 60000; // 1 minuto entre envíos
+
+// Generar partículas de fondo
+function createParticles() {
+  const container = document.getElementById('particles');
+  for(let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDelay = Math.random() * 20 + 's';
+    particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+    container.appendChild(particle);
+  }
+}
+createParticles();
+
+// Timer
+function startTimer() {
+  timerInterval = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const mins = Math.floor(elapsed / 60);
+    const secs = elapsed % 60;
+    document.getElementById('timer').textContent = `⏱️ ${mins}:${secs.toString().padStart(2, '0')}`;
+  }, 1000);
+}
+startTimer();
+
+// Tema
+themeToggle.onclick = () => {
+  document.body.classList.toggle('light');
+  themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+};
+
+// Idiomas
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentLang = btn.dataset.lang;
+    updateLanguage();
+  };
+});
+
+function updateLanguage() {
+  const t = translations[currentLang];
+  document.getElementById('title').textContent = t.title;
+  document.getElementById('subtitle').textContent = t.subtitle;
+  document.getElementById('stepText').innerHTML = `${t.stepText} <span id="currentStep">${stepIndex + 1}</span> de <span id="totalSteps">${getFilteredSteps().length}</span>`;
+  document.getElementById('qualityText').textContent = t.qualityText;
+  document.getElementById('btnPrev').textContent = t.btnPrev;
+  document.getElementById('btnNext').textContent = t.btnNext;
+  document.getElementById('btnSend').textContent = t.btnSend;
+  document.getElementById('footerText').textContent = t.footerText;
+  
+  Object.keys(t).forEach(key => {
+    if(key.startsWith('q') && document.getElementById(key)) {
+      document.getElementById(key).textContent = t[key];
+    }
+  });
+}
+
+// Captcha
+function generateCaptcha() {
+  const num1 = Math.floor(Math.random() * 10) + 1;
+  const num2 = Math.floor(Math.random() * 10) + 1;
+  captchaAnswer = num1 + num2;
+  const questions = {
+    es: `¿Cuánto es ${num1} + ${num2}?`,
+    en: `What is ${num1} + ${num2}?`,
+    pt: `Quanto é ${num1} + ${num2}?`
+  };
+  document.getElementById('captchaQuestion').textContent = questions[currentLang];
+}
+generateCaptcha();
+
+// Geolocalización
+document.getElementById('detectLocation').onclick = async () => {
+  try {
+    const res = await fetch('https://ipapi.co/json/');
+    const data = await res.json();
+    const offset = data.utc_offset;
+    document.querySelector('input[name="country"]').value = `${data.country_name} (GMT${offset})`;
+    validateField(document.querySelector('input[name="country"]'));
+  } catch(e) {
+    alert('No se pudo detectar la ubicación');
+  }
+};
+
+function getFilteredSteps() {
+  return steps.filter(s => {
+    if(s.classList.contains("staff-only")) return chosenRole==="staff";
+    if(s.classList.contains("dev-only")) return chosenRole==="dev";
+    if(s.classList.contains("beta-only")) return chosenRole==="beta";
+    return true;
+  });
+}
+
+function showStep(i){
+  const filtered = getFilteredSteps();
+  filtered.forEach((s,idx)=>s.classList.toggle("active",idx===i));
+  bar.style.width = ((i+1)/filtered.length*100)+"%";
+  currentStepEl.textContent = i+1;
+  totalStepsEl.textContent = filtered.length;
+  prevBtn.style.display = i===0?"none":"inline-block";
+  nextBtn.style.display = i===filtered.length-1?"none":"inline-block";
+  sendBtn.style.display = i===filtered.length-1?"inline-block":"none";
+  validateStep();
+  updateQuality();
+  
+  // Scroll suave al top
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function validateField(field) {
+  const name = field.name;
+  const value = field.value.trim();
+  const valMsg = document.getElementById(`val-${name}`);
+  
+  let isValid = true;
+  let message = '';
+  
+  if(field.hasAttribute('required') && !value) {
+    isValid = false;
+    message = '⚠️ Este campo es obligatorio';
+  } else if(name === 'discord' && value) {
+    if(value.length < 2 || value.length > 37) {
+      isValid = false;
+      message = '⚠️ Nick de Discord inválido';
+    }
+  } else if(name === 'mc' && value) {
+    if(!/^[a-zA-Z0-9_]{3,16}$/.test(value)) {
+      isValid = false;
+      message = '⚠️ Nick debe tener 3-16 caracteres (solo letras, números y _)';
+    }
+  } else if(name === 'hours' && value) {
+    if(value < 1 || value > 168) {
+      isValid = false;
+      message = '⚠️ Debe ser entre 1 y 168 horas';
+    }
+  } else if(name === 'captcha' && value) {
+    if(parseInt(value) !== captchaAnswer) {
+      isValid = false;
+      message = '⚠️ Respuesta incorrecta';
+    } else {
+      message = '✅ Correcto';
+    }
+  }
+  
+  if(valMsg) {
+    valMsg.textContent = message;
+    valMsg.className = 'validation-msg show ' + (isValid && value ? 'success' : 'error');
+  }
+  
+  field.className = value ? (isValid ? 'valid' : 'invalid') : '';
+  return isValid;
+}
+
+function validateStep() {
+  const filtered = getFilteredSteps();
+  const currentFields = filtered[stepIndex].querySelectorAll("input[required],textarea[required],select[required]");
+  const allFilled = Array.from(currentFields).every(f => {
+    const isValid = f.value.trim() !== "";
+    if(f.name === 'captcha' && isValid) {
+      return parseInt(f.value) === captchaAnswer;
+    }
+    return isValid;
+  });
+  nextBtn.disabled = !allFilled;
+  sendBtn.disabled = !allFilled;
+}
+
+function updateQuality() {
+  const fd = new FormData(form);
+  const data = Object.fromEntries(fd.entries());
+  let score = 0;
+  let total = 0;
+  
+  Object.entries(data).forEach(([key, value]) => {
+    if(key === 'extra' || key === 'email') return; // Opcionales no cuentan
+    total++;
+    if(value.trim()) {
+      score++;
+      // Bonus por respuestas largas
+      if(value.length > 100) score += 0.5;
+      if(value.length > 300) score += 0.5;
+    }
+  });
+  
+  const percent = Math.min(100, Math.round((score / total) * 100));
+  document.getElementById('qualityBar').style.width = percent + '%';
+  document.getElementById('qualityPercent').textContent = percent + '%';
+}
+
+// Contador de caracteres
+document.querySelectorAll('textarea[maxlength]').forEach(textarea => {
+  const countId = textarea.name + '-count';
+  textarea.addEventListener('input', () => {
+    const count = textarea.value.length;
+    const counter = document.getElementById(countId);
+    if(counter) counter.textContent = count;
+  });
+});
+
+// Validación en tiempo real
+steps.forEach(step => {
+  step.querySelectorAll("input,textarea,select").forEach(field => {
+    field.addEventListener("input", () => {
+      validateField(field);
+      validateStep();
+      updateQuality();
+      // Autoguardado
+      autoSaveData[field.name] = field.value;
+    });
+    field.addEventListener("change", () => {
+      validateField(field);
+      validateStep();
+      updateQuality();
+    });
+  });
+});
+
+// Botones de respuesta rápida
+document.querySelectorAll('.quick-btn[data-fill]').forEach(btn => {
+  btn.onclick = () => {
+    const targetName = btn.dataset.fill;
+    const text = btn.dataset.text;
+    const field = document.querySelector(`[name="${targetName}"]`);
+    if(field) {
+      if(field.tagName === 'TEXTAREA') {
+        field.value = field.value ? field.value + ', ' + text : text;
+      } else {
+        field.value = text;
+      }
+      validateField(field);
+      validateStep();
+      updateQuality();
+    }
+  };
+});
+
+nextBtn.onclick=()=>{
+  const filtered = getFilteredSteps();
+  if(stepIndex<filtered.length-1){
+    stepIndex++;
+    showStep(stepIndex);
+    playSound();
+  }
+};
+
+prevBtn.onclick=()=>{
+  if(stepIndex>0){
+    stepIndex--;
+    showStep(stepIndex);
+    playSound();
+  }
+};
+
+document.querySelector("select[name='role']").addEventListener("change", e=>{
+  chosenRole = e.target.value;
+  stepIndex = 0;
+  showStep(stepIndex);
+});
+
+// Sonidos (simulados con beep)
+function playSound() {
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioCtx.createOscillator();
+  const gainNode = audioCtx.createGain();
+  
+  oscillator.connect(gainNode);
+  gainNode.connect(audioCtx.destination);
+  
+  oscillator.frequency.value = 800;
+  oscillator.type = 'sine';
+  
+  gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+  
+  oscillator.start(audioCtx.currentTime);
+  oscillator.stop(audioCtx.currentTime + 0.1);
+}
+
+// Confetti
+function createConfetti() {
+  const colors = ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'];
+  for(let i = 0; i < 100; i++) {
+    setTimeout(() => {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDelay = Math.random() * 0.5 + 's';
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 3000);
+    }, i * 20);
+  }
+}
+
+// Vibración móvil
+function vibrate() {
+  if(navigator.vibrate) {
+    navigator.vibrate(200);
+  }
+}
+
+// Konami Code Easter Egg
+let konamiCode = [];
+const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+document.addEventListener('keydown', e => {
+  konamiCode.push(e.key);
+  if(konamiCode.length > 10) konamiCode.shift();
+  if(JSON.stringify(konamiCode) === JSON.stringify(konamiSequence)) {
+    document.body.classList.toggle('konami-active');
+    alert('🎮 ¡KONAMI CODE ACTIVADO! 🎮');
+  }
+});
+
+// Gestos táctiles
+let touchStartX = 0;
+let touchEndX = 0;
+document.querySelector('.container').addEventListener('touchstart', e => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+document.querySelector('.container').addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+});
+function handleSwipe() {
+  if(touchEndX < touchStartX - 50) nextBtn.click(); // Swipe left
+  if(touchEndX > touchStartX + 50) prevBtn.click(); // Swipe right
+}
+
+form.onsubmit = async e => {
+  e.preventDefault();
+  
+  // Rate limiting
+  const now = Date.now();
+  if(now - lastSubmitTime < RATE_LIMIT_MS) {
+    const waitTime = Math.ceil((RATE_LIMIT_MS - (now - lastSubmitTime)) / 1000);
+    alert(`⏳ Espera ${waitTime} segundos antes de enviar otra postulación`);
+    vibrate();
+    return;
+  }
+  
+  sendBtn.disabled = true;
+  sendBtn.innerHTML = '⏳ <span>Enviando...</span>';
+  
+  const fd = new FormData(form);
+  const data = Object.fromEntries(fd.entries());
+  
+  // Generar ID único
+  const appId = 'APP-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+  
+  const fieldNames = {
+    role: "🎯 Rol",
+    discord: "💬 Discord",
+    mc: "🎮 Minecraft",
+    exp: "📋 Experiencia Previa",
+    country: "🌍 País/Zona Horaria",
+    hours: "⏰ Horas Semanales",
+    days: "📅 Días Disponibles",
+    staff_conflict: "⚖️ Resolución de Conflictos",
+    staff_motive: "💡 Motivación (Staff)",
+    dev_langs: "💻 Lenguajes de Programación",
+    dev_events: "🔧 Manejo de Eventos Minecraft",
+    beta_motive: "💡 Motivación (Beta Tester)",
+    beta_pref: "🔍 Preferencia de Testing",
+    extra: "📝 Información Adicional",
+    email: "📧 Email"
+  };
+
+  const fields = [];
+  for (const [key, value] of Object.entries(data)) {
+    if(key === 'captcha') continue;
+    if (value && value.trim() !== "") {
+      fields.push({
+        name: fieldNames[key] || key,
+        value: value.substring(0, 1024),
+        inline: key === 'role' || key === 'hours'
+      });
+    }
+  }
+  
+  // Calcular tiempo total
+  const totalTime = Math.floor((Date.now() - startTime) / 1000);
+  const mins = Math.floor(totalTime / 60);
+  const secs = totalTime % 60;
+  
+  fields.push({
+    name: "⏱️ Tiempo completado",
+    value: `${mins}m ${secs}s`,
+    inline: true
+  });
+  
+  fields.push({
+    name: "🆔 ID de Postulación",
+    value: appId,
+    inline: true
+  });
+
+  const payload = {
+    username: "Postulaciones GodestMC",
+    avatar_url: "https://i.imgur.com/8eU3Ggk.png",
+    content: `<@&YOUR_ADMIN_ROLE_ID> Nueva postulación recibida!`,
+    embeds: [{
+      title: "📩 Nueva Postulación — GodestMC",
+      description: `**Rol solicitado:** ${data.role.toUpperCase()}\n**ID:** \`${appId}\``,
+      color: data.role === 'staff' ? 0x10b981 : data.role === 'dev' ? 0x3b82f6 : 0x8b5cf6,
+      fields: fields,
+      thumbnail: {
+        url: `https://mc-heads.net/avatar/${data.mc || 'Steve'}/128`
+      },
+      footer: {
+        text: "GodestMC — Sistema de Postulación v2.0"
+      },
+      timestamp: new Date().toISOString()
+    }]
+  };
+
+  try {
+    const res = await fetch(webhookUrl, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      lastSubmitTime = Date.now();
+      clearInterval(timerInterval);
+      createConfetti();
+      vibrate();
+      
+      const successMessages = {
+        es: {
+          title: "¡Postulación enviada!",
+          subtitle: "Tu solicitud ha sido recibida correctamente.",
+          reminder: "Recuerda abrir un ticket en Discord para completar el proceso con las pruebas finales.",
+          luck: "¡Buena suerte! 🍀"
+        },
+        en: {
+          title: "Application submitted!",
+          subtitle: "Your request has been received successfully.",
+          reminder: "Remember to open a ticket on Discord to complete the process with the final tests.",
+          luck: "Good luck! 🍀"
+        },
+        pt: {
+          title: "Aplicação enviada!",
+          subtitle: "Sua solicitação foi recebida com sucesso.",
+          reminder: "Lembre-se de abrir um ticket no Discord para completar o processo com os testes finais.",
+          luck: "Boa sorte! 🍀"
+        }
+      };
+      
+      const msg = successMessages[currentLang];
+      
+      document.querySelector(".container").innerHTML = `
+        <div class="success-screen">
+          <h1 style="font-size:5rem;margin-bottom:20px;animation:bounce 1s ease">✅</h1>
+          <h2 style="font-size:2rem;margin-bottom:15px;color:#10b981">${msg.title}</h2>
+          <p style="margin-top:12px;font-size:1.1rem;color:#e2e8f0;line-height:1.8;max-width:500px;margin-left:auto;margin-right:auto">
+            ${msg.subtitle}<br><br>
+            <strong>${msg.reminder}</strong>
+          </p>
+          <div class="app-id">
+            ${appId}
+          </div>
+          <p style="margin-top:20px;font-size:1rem;color:rgba(255,255,255,0.7)">
+            ${msg.luck}
+          </p>
+          <p style="margin-top:30px;font-size:0.9rem;color:rgba(255,255,255,0.5)">
+            ⏱️ Completado en ${mins}m ${secs}s
+          </p>
+        </div>
+      `;
+      
+      playSound();
+    } else {
+      const errText = await res.text();
+      alert("❌ Error al enviar: " + res.status + "\n" + errText);
+      sendBtn.disabled = false;
+      sendBtn.innerHTML = '🚀 <span id="btnSend">' + translations[currentLang].btnSend + '</span>';
+      vibrate();
+    }
+  } catch(err) {
+    alert("❌ Error de conexión: " + err.message);
+    sendBtn.disabled = false;
+    sendBtn.innerHTML = '🚀 <span id="btnSend">' + translations[currentLang].btnSend + '</span>';
+    vibrate();
+  }
+};
+
+// Inicializar
+showStep(stepIndex);
+updateQuality();
+
+// Auto-guardar recordatorio
+window.addEventListener('beforeunload', e => {
+  const hasData = Object.keys(autoSaveData).length > 0;
+  if(hasData && stepIndex < getFilteredSteps().length - 1) {
+    e.preventDefault();
+    e.returnValue = '';
+  }
+});
+
+console.log('%c🎮 GodestMC Form v2.0', 'font-size:20px;color:#0ea5e9;font-weight:bold');
+console.log('%cTip: Intenta el Konami Code... 👾', 'color:#10b981');
+</script>
+</body>
+</html>
