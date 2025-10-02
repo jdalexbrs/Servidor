@@ -1,154 +1,178 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>GodestMC — Postulaciones</title>
-  <meta name="description" content="Postúlate a Staff / Dev / Beta Tester en GodestMC">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --blue-1:#123a6b;
-      --blue-2:#2b6cb0;
-      --bronze:#b08d57;
-      --bg:#071028;
-      --card:#081827;
-      --glass: rgba(255,255,255,0.04);
-      --accent:#9fd3ff;
-      --radius:14px;
-    }
-    *{box-sizing:border-box}
+    /* 🌌 Estilos base */
+    *{box-sizing:border-box;margin:0;padding:0}
     body{
-      margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Arial;
-      background:radial-gradient(circle at 10% 10%, rgba(43,108,176,0.07), transparent 8%), linear-gradient(180deg,var(--bg), #020617 60%);
-      color:#e6f0ff;overflow-y:auto;
+      font-family:"Poppins",sans-serif;
+      min-height:100vh;
+      background:linear-gradient(135deg,#0f172a,#1e3a8a,#0ea5e9);
+      background-size:400% 400%;
+      animation:bgFlow 18s ease infinite;
+      display:flex;justify-content:center;align-items:center;
+      padding:20px;color:#f1f5f9;
     }
-    .container{max-width:1100px;margin:36px auto;padding:24px}
-    header{display:flex;align-items:center;gap:18px}
-    .logo{width:76px;height:76px;border-radius:12px;background:linear-gradient(135deg,var(--blue-2),var(--blue-1));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:var(--bronze)}
-    h1{margin:0;font-family:'Playfair Display',serif;font-size:28px}
-    p.lead{margin:6px 0 0;color:rgba(255,255,255,0.8)}
+    @keyframes bgFlow{
+      0%{background-position:0% 50%}
+      50%{background-position:100% 50%}
+      100%{background-position:0% 50%}
+    }
 
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:20px;margin-top:18px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:18px;box-shadow:0 6px 24px rgba(3,8,16,0.6);border:1px solid rgba(255,255,255,0.03)}
+    .container{
+      width:100%;max-width:800px;
+      background:rgba(255,255,255,0.06);
+      border-radius:20px;
+      padding:30px;
+      backdrop-filter:blur(18px);
+      box-shadow:0 10px 40px rgba(0,0,0,.4);
+      animation:fadeIn .8s ease;
+    }
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 
-    .form-wrap{display:flex;flex-direction:column;gap:12px}
-    .step-card{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
-    label{display:block;font-size:13px;color:#dbeeff;margin-bottom:6px}
-    input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit;font-size:14px}
+    h1{
+      text-align:center;font-weight:800;font-size:2rem;
+      margin-bottom:20px;color:#fff;
+      text-shadow:0 0 10px rgba(14,165,233,.6);
+    }
+
+    .progress{
+      height:10px;background:rgba(255,255,255,0.15);
+      border-radius:999px;overflow:hidden;margin:10px 0 25px;
+    }
+    .progress i{
+      display:block;height:100%;width:0%;
+      background:linear-gradient(90deg,#0ea5e9,#38bdf8,#3b82f6);
+      transition:width .6s cubic-bezier(.4,.0,.2,1);
+    }
+
+    .step-card{
+      display:none;animation:fadeIn .6s ease;
+    }
+    .step-card.active{display:block;}
+
+    label{display:block;margin:14px 0 6px;font-size:.9rem;font-weight:600}
+    input,textarea,select{
+      width:100%;padding:12px;
+      border:none;border-radius:12px;
+      background:rgba(255,255,255,0.1);
+      color:#fff;font-size:1rem;
+      outline:none;transition:.2s;
+    }
+    input:focus,textarea:focus,select:focus{
+      background:rgba(255,255,255,0.2);box-shadow:0 0 0 2px #38bdf8;
+    }
     textarea{min-height:90px;resize:vertical}
-    .small{font-size:13px;color:#9fc1ff}
-    .controls{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
-    .btn{background:linear-gradient(90deg,var(--blue-2),var(--blue-1));padding:10px 14px;border-radius:10px;border:none;color:white;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(43,108,176,0.25)}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
-    .progress{height:10px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden}
-    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--bronze),var(--accent));width:0%;transition:width .4s cubic-bezier(.2,.9,.2,1)}
-    @media (max-width:980px){.hero{grid-template-columns:1fr}}
-    @media (max-width:560px){.controls{flex-direction:column;gap:10px}}
-    footer{margin-top:18px;text-align:center;color:rgba(255,255,255,0.6);font-size:13px}
+
+    .controls{
+      margin-top:20px;display:flex;justify-content:space-between;gap:12px;
+    }
+    .btn{
+      flex:1;
+      background:linear-gradient(90deg,#3b82f6,#0ea5e9);
+      padding:12px;border:none;border-radius:12px;
+      color:#fff;font-weight:600;font-size:1rem;
+      cursor:pointer;transition:.3s;
+      box-shadow:0 6px 20px rgba(14,165,233,.4);
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(14,165,233,.6)}
+    .btn.ghost{
+      background:transparent;
+      border:2px solid rgba(255,255,255,.3);
+      box-shadow:none;
+    }
+    .btn.ghost:hover{background:rgba(255,255,255,.1)}
+
+    footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,.6)}
   </style>
 </head>
 <body>
   <div class="container">
-    <header>
-      <div class="logo">GM</div>
-      <div>
-        <h1>GodestMC</h1>
-        <p class="lead">Bienvenido a la web oficial de postulaciones</p>
-      </div>
-    </header>
+    <h1>⚡ Postulaciones GodestMC</h1>
 
-    <main class="hero">
-      <section class="card intro">
-        <h2>Postúlate al Staff Team</h2>
-        <p>Completa el formulario paso a paso. Se enviará automáticamente al Discord.</p>
-        <label for="role">¿A qué rol te postulas?</label>
-        <select id="role">
-          <option value="">— Selecciona un rol —</option>
+    <div class="progress"><i id="bar"></i></div>
+    <div style="text-align:center;margin-bottom:15px">Sección <span id="currentStep">1</span> de 3</div>
+
+    <form id="applyForm">
+      <!-- Paso 1 -->
+      <div class="step-card active" data-step="1">
+        <label>Nick en Discord*</label>
+        <input name="discord" required placeholder="Ej: mini_jdalex_brs">
+        <label>Nick en Minecraft*</label>
+        <input name="mc" required placeholder="Ej: jdalexbrs">
+        <label>¿Rol al que te postulas?*</label>
+        <select name="role" required>
+          <option value="">— Selecciona —</option>
           <option value="staff">Staff</option>
           <option value="dev">Dev</option>
           <option value="beta">Beta Tester</option>
         </select>
-      </section>
-
-      <aside class="card">
-        <div style="font-size:13px;color:#9fc1ff">Progreso</div>
-        <div style="font-weight:700;font-size:16px">Sección <span id="currentSection">0</span></div>
-        <div class="progress"><i id="bar"></i></div>
-      </aside>
-
-      <div style="grid-column:1 / -1" class="card form-wrap">
-        <form id="applyForm">
-          <div class="step-card" data-step="1">
-            <h3>1. Info básica</h3>
-            <label>Nick Discord*</label>
-            <input name="discord" required>
-            <label>Minecraft Nick*</label>
-            <input name="mc" required>
-          </div>
-
-          <div class="step-card" data-step="2">
-            <h3>2. Motivación</h3>
-            <label>¿Por qué quieres ser parte del equipo?</label>
-            <textarea name="motive"></textarea>
-          </div>
-
-          <div class="step-card" data-step="3">
-            <h3>3. Experiencia</h3>
-            <label>¿Tienes experiencia previa?</label>
-            <textarea name="exp"></textarea>
-          </div>
-
-          <div class="controls">
-            <button type="button" id="prevBtn" class="btn ghost">Anterior</button>
-            <div>
-              <button type="button" id="nextBtn" class="btn">Siguiente</button>
-              <button type="submit" id="sendBtn" class="btn" style="display:none;">Enviar</button>
-            </div>
-          </div>
-        </form>
       </div>
-    </main>
-    <footer>© GodestMC</footer>
+
+      <!-- Paso 2 -->
+      <div class="step-card" data-step="2">
+        <label>¿Por qué quieres ser parte del equipo?</label>
+        <textarea name="motive"></textarea>
+        <label>¿Has sido staff/dev/beta previamente? (indica servidor, fechas y rol)</label>
+        <textarea name="exp"></textarea>
+      </div>
+
+      <!-- Paso 3 -->
+      <div class="step-card" data-step="3">
+        <label>¿Algo que añadir?</label>
+        <textarea name="extra"></textarea>
+        <p style="font-size:.9rem;color:#cbd5e1;margin-top:8px">Recuerda abrir un ticket en Discord: allí se harán las últimas pruebas.</p>
+      </div>
+
+      <div class="controls">
+        <button type="button" id="prevBtn" class="btn ghost">Anterior</button>
+        <button type="button" id="nextBtn" class="btn">Siguiente</button>
+        <button type="submit" id="sendBtn" class="btn" style="display:none">Enviar</button>
+      </div>
+    </form>
+
+    <footer>Creado con ❤️ para GodestMC</footer>
   </div>
 
   <script>
-    const webhookUrl = "https://discord.com/api/webhooks/1423073398023651348/VAdkiXPoQYqI-feNKoiPuBTbwVEM-ORSNFOSTUANV1Bs_zYM1V6LPgBByoU6JBaCV7HT"; // cambia esto
+    const webhookUrl = "PEGAR_AQUI_TU_WEBHOOK"; // <-- tu webhook de Discord
 
-    const form = document.getElementById('applyForm');
-    const steps = Array.from(document.querySelectorAll('[data-step]'));
-    const bar = document.getElementById('bar');
-    const currentSection = document.getElementById('currentSection');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const sendBtn = document.getElementById('sendBtn');
-    const roleSelect = document.getElementById('role');
+    const form = document.getElementById("applyForm");
+    const steps = Array.from(document.querySelectorAll(".step-card"));
+    const bar = document.getElementById("bar");
+    const currentStepEl = document.getElementById("currentStep");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const sendBtn = document.getElementById("sendBtn");
 
     let stepIndex = 0;
     function showStep(i){
-      steps.forEach((s,idx)=>s.style.display = idx===i?'block':'none');
-      prevBtn.style.display = i===0?'none':'inline-block';
-      nextBtn.style.display = i===steps.length-1?'none':'inline-block';
-      sendBtn.style.display = i===steps.length-1?'inline-block':'none';
-      bar.style.width = ((i+1)/steps.length*100)+'%';
-      currentSection.innerText = i+1;
+      steps.forEach((s,idx)=>s.classList.toggle("active",idx===i));
+      bar.style.width = ((i+1)/steps.length*100)+"%";
+      currentStepEl.textContent = i+1;
+      prevBtn.style.display = i===0?"none":"inline-block";
+      nextBtn.style.display = i===steps.length-1?"none":"inline-block";
+      sendBtn.style.display = i===steps.length-1?"inline-block":"none";
     }
     showStep(stepIndex);
 
-    nextBtn.onclick = ()=>{ if(stepIndex<steps.length-1){stepIndex++;showStep(stepIndex);} }
-    prevBtn.onclick = ()=>{ if(stepIndex>0){stepIndex--;showStep(stepIndex);} }
+    nextBtn.onclick=()=>{if(stepIndex<steps.length-1){stepIndex++;showStep(stepIndex)}};
+    prevBtn.onclick=()=>{if(stepIndex>0){stepIndex--;showStep(stepIndex)}};
 
-    form.onsubmit = async e=>{
+    form.onsubmit=async e=>{
       e.preventDefault();
       const fd = new FormData(form);
       const data = Object.fromEntries(fd.entries());
-      data.role = roleSelect.value;
 
-      const embed = {
-        title: "📩 Nueva postulación",
-        color: 44678,
-        fields: Object.keys(data).map(k=>({name:k, value:data[k]||"—", inline:false})),
-        timestamp: new Date()
+      const embed={
+        title:"📩 Nueva postulación",
+        color:0x3b82f6,
+        fields:Object.keys(data).map(k=>({name:k,value:data[k]||"—"})),
+        timestamp:new Date()
       };
 
       try{
@@ -158,7 +182,7 @@
           body:JSON.stringify({embeds:[embed]})
         });
         alert("✅ Postulación enviada al Discord");
-        form.reset(); stepIndex=0; showStep(stepIndex);
+        form.reset();stepIndex=0;showStep(stepIndex);
       }catch(err){
         alert("❌ Error al enviar: "+err);
       }
