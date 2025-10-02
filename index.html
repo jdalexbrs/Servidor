@@ -752,9 +752,20 @@ form.onsubmit = async e => {
   for (const [key, value] of Object.entries(data)) {
     if(key === 'captcha') continue;
     if (value && value.trim() !== "") {
+      // Asegurar que los valores no excedan los límites de Discord
+      let fieldValue = value.trim();
+      if(fieldValue.length > 1024) {
+        fieldValue = fieldValue.substring(0, 1021) + '...';
+      }
+      
+      let fieldName = fieldNames[key] || key;
+      if(fieldName.length > 256) {
+        fieldName = fieldName.substring(0, 253) + '...';
+      }
+      
       fields.push({
-        name: fieldNames[key] || key,
-        value: value.substring(0, 1024),
+        name: fieldName,
+        value: fieldValue,
         inline: key === 'role' || key === 'hours'
       });
     }
@@ -785,9 +796,9 @@ form.onsubmit = async e => {
       title: "📩 Nueva Postulación — GodestMC",
       description: `**Rol solicitado:** ${data.role.toUpperCase()}\n**ID:** \`${appId}\``,
       color: data.role === 'staff' ? 0x10b981 : data.role === 'dev' ? 0x3b82f6 : 0x8b5cf6,
-      fields: fields,
+      fields: fields.slice(0, 25), // Discord permite máximo 25 fields
       thumbnail: {
-        url: `https://mc-heads.net/avatar/${data.mc || 'Steve'}/128`
+        url: `https://mc-heads.net/avatar/${encodeURIComponent(data.mc || 'Steve')}/128`
       },
       footer: {
         text: "GodestMC — Sistema de Postulación v2.0"
