@@ -41,12 +41,14 @@ input,textarea,select{
   width:100%;padding:12px;border:none;border-radius:12px;
   background:rgba(255,255,255,0.1);color:#fff;font-size:1rem;outline:none;transition:.2s;
 }
+input::placeholder,textarea::placeholder{color:rgba(255,255,255,0.5)}
 input:focus,textarea:focus,select:focus{background:rgba(255,255,255,0.2);box-shadow:0 0 0 2px #38bdf8;}
 textarea{min-height:90px;resize:vertical}
 select option{background:#0f172a;color:#f1f5f9;}
 .controls{margin-top:20px;display:flex;justify-content:space-between;gap:12px;}
 .btn{flex:1;background:linear-gradient(90deg,#3b82f6,#0ea5e9);padding:12px;border:none;border-radius:12px;color:#fff;font-weight:600;font-size:1rem;cursor:pointer;transition:.3s;box-shadow:0 6px 20px rgba(14,165,233,.4);}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(14,165,233,.6)}
+.btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(14,165,233,.6)}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
 .btn.ghost{background:transparent;border:2px solid rgba(255,255,255,.3);box-shadow:none;}
 .btn.ghost:hover{background:rgba(255,255,255,.1)}
 footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,.6)}
@@ -89,7 +91,7 @@ footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,
   <!-- Pregunta 4 -->
   <div class="step-card" data-step="4">
     <label>¿Has sido staff/dev/beta previamente?*</label>
-    <textarea name="exp" required></textarea>
+    <textarea name="exp" required placeholder="Describe tu experiencia..."></textarea>
   </div>
 
   <!-- Pregunta 5 -->
@@ -101,7 +103,7 @@ footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,
   <!-- Pregunta 6 -->
   <div class="step-card" data-step="6">
     <label>Horas semanales que le puedes dedicar*</label>
-    <input name="hours" required placeholder="Ej: 10">
+    <input name="hours" type="number" required placeholder="Ej: 10">
   </div>
 
   <!-- Pregunta 7 -->
@@ -113,21 +115,21 @@ footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,
   <!-- Staff -->
   <div class="step-card staff-only" data-step="8">
     <label>En caso de que 2 usuarios se peleen, ¿qué harías?*</label>
-    <textarea name="staff_conflict" required></textarea>
+    <textarea name="staff_conflict" placeholder="Describe tu plan de acción..."></textarea>
   </div>
   <div class="step-card staff-only" data-step="9">
     <label>¿Por qué quieres ser staff?*</label>
-    <textarea name="staff_motive" required></textarea>
+    <textarea name="staff_motive" placeholder="Explica tus motivaciones..."></textarea>
   </div>
 
   <!-- Dev -->
   <div class="step-card dev-only" data-step="8">
     <label>¿Qué lenguajes de programación dominas?*</label>
-    <textarea name="dev_langs" required></textarea>
+    <textarea name="dev_langs" placeholder="Ej: Java, JavaScript, Python..."></textarea>
   </div>
   <div class="step-card dev-only" data-step="9">
     <label>¿Sabes manejar eventos de Minecraft en código?*</label>
-    <select name="dev_events" required>
+    <select name="dev_events">
       <option value="">— Selecciona —</option>
       <option value="sí">Sí</option>
       <option value="no">No</option>
@@ -137,17 +139,17 @@ footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,
   <!-- Beta -->
   <div class="step-card beta-only" data-step="8">
     <label>¿Por qué quieres ser Beta Tester?*</label>
-    <textarea name="beta_motive" required></textarea>
+    <textarea name="beta_motive" placeholder="Explica tus motivaciones..."></textarea>
   </div>
   <div class="step-card beta-only" data-step="9">
     <label>¿Qué prefieres: testear mecánicas o reportar errores?*</label>
-    <textarea name="beta_pref" required></textarea>
+    <textarea name="beta_pref" placeholder="Explica tu preferencia..."></textarea>
   </div>
 
   <!-- Final -->
   <div class="step-card" data-step="10">
-    <label>¿Algo que añadir?*</label>
-    <textarea name="extra" required></textarea>
+    <label>¿Algo que añadir?</label>
+    <textarea name="extra" placeholder="Información adicional (opcional)..."></textarea>
   </div>
 
   <div class="controls">
@@ -197,7 +199,7 @@ function showStep(i){
 
 function validateStep() {
   const filtered = getFilteredSteps();
-  const currentFields = filtered[stepIndex].querySelectorAll("input,textarea,select");
+  const currentFields = filtered[stepIndex].querySelectorAll("input[required],textarea[required],select[required]");
   const allFilled = Array.from(currentFields).every(f => f.value.trim() !== "");
   nextBtn.disabled = !allFilled;
   sendBtn.disabled = !allFilled;
@@ -217,6 +219,7 @@ nextBtn.onclick=()=>{
     showStep(stepIndex);
   }
 };
+
 prevBtn.onclick=()=>{
   if(stepIndex>0){
     stepIndex--;
@@ -226,57 +229,101 @@ prevBtn.onclick=()=>{
 
 document.querySelector("select[name='role']").addEventListener("change", e=>{
   chosenRole = e.target.value;
+  stepIndex = 0;
+  showStep(stepIndex);
 });
 
 form.onsubmit = async e => {
   e.preventDefault();
+  
+  sendBtn.disabled = true;
+  sendBtn.textContent = "Enviando...";
+  
   const fd = new FormData(form);
   const data = Object.fromEntries(fd.entries());
 
-  // Campos embed
-  const fields = Object.entries(data).map(([key,value])=>({
-    name: key.replace(/_/g," ").toUpperCase().slice(0,256),
-    value: value.slice(0,1024) || "—",
-    inline:false
-  }));
+  // Mapeo de nombres legibles para los campos
+  const fieldNames = {
+    role: "🎯 Rol",
+    discord: "💬 Discord",
+    mc: "🎮 Minecraft",
+    exp: "📋 Experiencia Previa",
+    country: "🌍 País/Zona Horaria",
+    hours: "⏰ Horas Semanales",
+    days: "📅 Días Disponibles",
+    staff_conflict: "⚖️ Resolución de Conflictos",
+    staff_motive: "💡 Motivación (Staff)",
+    dev_langs: "💻 Lenguajes de Programación",
+    dev_events: "🔧 Manejo de Eventos Minecraft",
+    beta_motive: "💡 Motivación (Beta Tester)",
+    beta_pref: "🔍 Preferencia de Testing",
+    extra: "📝 Información Adicional"
+  };
+
+  // Crear campos solo con los datos completados
+  const fields = [];
+  for (const [key, value] of Object.entries(data)) {
+    if (value && value.trim() !== "") {
+      fields.push({
+        name: fieldNames[key] || key,
+        value: value.substring(0, 1024),
+        inline: false
+      });
+    }
+  }
 
   const payload = {
-    username: "Postulaciones Bot",
+    username: "Postulaciones GodestMC",
     avatar_url: "https://i.imgur.com/8eU3Ggk.png",
-    embeds:[{
-      title:"📩 Nueva Postulación — GodestMC",
-      color:0x0ea5e9,
-      fields,
-      footer:{text:"GodestMC — Sistema de Postulación"},
+    embeds: [{
+      title: "📩 Nueva Postulación — GodestMC",
+      description: `**Rol solicitado:** ${data.role.toUpperCase()}`,
+      color: 0x0ea5e9,
+      fields: fields,
+      footer: {
+        text: "GodestMC — Sistema de Postulación"
+      },
       timestamp: new Date().toISOString()
     }]
   };
 
   try {
-    const res = await fetch(webhookUrl,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
+    const res = await fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(payload)
     });
 
-    if(res.ok){
+    if (res.ok) {
       document.querySelector(".container").innerHTML = `
         <div style="text-align:center;padding:40px">
-          <h1>✅ Postulación enviada</h1>
-          <p style="margin-top:12px;font-size:1.1rem;color:#e2e8f0">
-            Recuerda abrir un ticket en Discord, allí se te harán las últimas pruebas.
+          <h1 style="font-size:3rem;margin-bottom:20px">✅</h1>
+          <h2 style="font-size:1.8rem;margin-bottom:15px">¡Postulación enviada!</h2>
+          <p style="margin-top:12px;font-size:1.1rem;color:#e2e8f0;line-height:1.6">
+            Tu solicitud ha sido recibida correctamente.<br>
+            <strong>Recuerda abrir un ticket en Discord</strong> para completar el proceso con las pruebas finales.
+          </p>
+          <p style="margin-top:20px;font-size:0.9rem;color:rgba(255,255,255,0.6)">
+            ¡Buena suerte! 🍀
           </p>
         </div>
       `;
     } else {
       const errText = await res.text();
-      alert("❌ Error al enviar: "+res.status+" "+errText);
+      alert("❌ Error al enviar la postulación: " + res.status + "\n" + errText);
+      sendBtn.disabled = false;
+      sendBtn.textContent = "Enviar";
     }
-  } catch(err){
-    alert("❌ Error de red: "+err);
+  } catch(err) {
+    alert("❌ Error de conexión: " + err.message + "\nVerifica tu conexión e intenta nuevamente.");
+    sendBtn.disabled = false;
+    sendBtn.textContent = "Enviar";
   }
 };
 
+// Inicializar
 showStep(stepIndex);
 </script>
 </body>
