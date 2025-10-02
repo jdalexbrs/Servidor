@@ -57,6 +57,14 @@ select option{background:#0f172a;color:#f1f5f9}
 .btn.ghost{background:transparent;border:2px solid rgba(255,255,255,.3);box-shadow:none}
 .btn.ghost:hover{background:rgba(255,255,255,.1)}
 footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,.6)}
+
+/* 📱 Responsive */
+@media (max-width: 600px) {
+  h1 { font-size: 1.5rem; }
+  .container { padding: 20px; }
+  .controls { flex-direction: column; }
+  .btn { width: 100%; }
+}
 </style>
 </head>
 <body>
@@ -66,11 +74,27 @@ footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,
 <div style="text-align:center;margin-bottom:15px">Sección <span id="currentStep">1</span> de 9</div>
 
 <form id="applyForm">
-  <!-- Paso 1 - Bienvenida -->
+  <!-- Paso 1 - Bienvenida mejorada -->
   <div class="step-card active" data-step="1">
-    <p>🌟 Bienvenido al Formulario Oficial de Postulación 🌟</p>
-    <p>¿Quieres formar parte del Staff Team de Godest?</p>
-    <p>👉 Responde lo mejor posible. ¡Este formulario es tu carta de presentación!</p>
+    <div style="text-align:center; padding:20px;">
+      <h2 style="font-size:1.8rem; font-weight:700; color:#38bdf8; margin-bottom:12px;">
+        🌟 Bienvenido al Formulario Oficial de Postulación 🌟
+      </h2>
+      <p style="font-size:1.1rem; color:#e2e8f0; margin-bottom:16px;">
+        ¿Quieres formar parte del <strong style="color:#3b82f6;">Staff Team de GodestMC</strong>?
+      </p>
+      <div style="background:rgba(255,255,255,0.08); border-radius:16px; padding:18px; text-align:left; box-shadow:0 6px 18px rgba(0,0,0,.3);">
+        <p style="font-size:1rem; margin-bottom:10px; color:#f8fafc;">
+          🔹 Este formulario es tu <strong style="color:#38bdf8;">carta de presentación</strong> ante el Staff.
+        </p>
+        <p style="font-size:1rem; margin-bottom:10px; color:#f8fafc;">
+          🔹 Responde <strong style="color:#38bdf8;">con sinceridad y detalle</strong>.
+        </p>
+        <p style="font-size:1rem; color:#f8fafc;">
+          🔹 ¡Haz que cada respuesta cuente 🚀!
+        </p>
+      </div>
+    </div>
   </div>
 
   <!-- Paso 2 - Requisitos -->
@@ -197,7 +221,6 @@ let stepIndex = 0;
 
 function showStep(i){
   steps.forEach((s,idx)=>{
-    // mostrar solo steps normales + condicionales según rol
     if(s.classList.contains("role")){
       const role = roleSelect.value;
       s.classList.toggle("active", idx===i && s.classList.contains(role));
