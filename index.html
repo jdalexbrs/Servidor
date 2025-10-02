@@ -1,33 +1,168 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Postulación al Staff</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GodestMC — Postulaciones</title>
+  <meta name="description" content="Postúlate a Staff / Dev / Beta Tester en GodestMC">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --blue-1:#123a6b;
+      --blue-2:#2b6cb0;
+      --bronze:#b08d57;
+      --bg:#071028;
+      --card:#081827;
+      --glass: rgba(255,255,255,0.04);
+      --accent:#9fd3ff;
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;padding:0;font-family:Inter,system-ui,Segoe UI,Arial;
+      background:radial-gradient(circle at 10% 10%, rgba(43,108,176,0.07), transparent 8%), linear-gradient(180deg,var(--bg), #020617 60%);
+      color:#e6f0ff;overflow-y:auto;
+    }
+    .container{max-width:1100px;margin:36px auto;padding:24px}
+    header{display:flex;align-items:center;gap:18px}
+    .logo{width:76px;height:76px;border-radius:12px;background:linear-gradient(135deg,var(--blue-2),var(--blue-1));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:800;font-size:22px;color:var(--bronze)}
+    h1{margin:0;font-family:'Playfair Display',serif;font-size:28px}
+    p.lead{margin:6px 0 0;color:rgba(255,255,255,0.8)}
+
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:20px;margin-top:18px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:18px;box-shadow:0 6px 24px rgba(3,8,16,0.6);border:1px solid rgba(255,255,255,0.03)}
+
+    .form-wrap{display:flex;flex-direction:column;gap:12px}
+    .step-card{background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+    label{display:block;font-size:13px;color:#dbeeff;margin-bottom:6px}
+    input,select,textarea{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit;font-size:14px}
+    textarea{min-height:90px;resize:vertical}
+    .small{font-size:13px;color:#9fc1ff}
+    .controls{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+    .btn{background:linear-gradient(90deg,var(--blue-2),var(--blue-1));padding:10px 14px;border-radius:10px;border:none;color:white;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(43,108,176,0.25)}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06)}
+    .progress{height:10px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg,var(--bronze),var(--accent));width:0%;transition:width .4s cubic-bezier(.2,.9,.2,1)}
+    @media (max-width:980px){.hero{grid-template-columns:1fr}}
+    @media (max-width:560px){.controls{flex-direction:column;gap:10px}}
+    footer{margin-top:18px;text-align:center;color:rgba(255,255,255,0.6);font-size:13px}
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>Formulario de Postulación</h1>
-    <form id="postulacionForm">
-      <label for="nombre">Nombre completo:</label>
-      <input type="text" id="nombre" name="nombre" required>
+    <header>
+      <div class="logo">GM</div>
+      <div>
+        <h1>GodestMC</h1>
+        <p class="lead">Bienvenido a la web oficial de postulaciones</p>
+      </div>
+    </header>
 
-      <label for="edad">Edad:</label>
-      <input type="number" id="edad" name="edad" required>
+    <main class="hero">
+      <section class="card intro">
+        <h2>Postúlate al Staff Team</h2>
+        <p>Completa el formulario paso a paso. Se enviará automáticamente al Discord.</p>
+        <label for="role">¿A qué rol te postulas?</label>
+        <select id="role">
+          <option value="">— Selecciona un rol —</option>
+          <option value="staff">Staff</option>
+          <option value="dev">Dev</option>
+          <option value="beta">Beta Tester</option>
+        </select>
+      </section>
 
-      <label for="discord">Usuario de Discord:</label>
-      <input type="text" id="discord" name="discord" required>
+      <aside class="card">
+        <div style="font-size:13px;color:#9fc1ff">Progreso</div>
+        <div style="font-weight:700;font-size:16px">Sección <span id="currentSection">0</span></div>
+        <div class="progress"><i id="bar"></i></div>
+      </aside>
 
-      <label for="razon">Motivo de postulación:</label>
-      <textarea id="razon" name="razon" rows="4" required></textarea>
+      <div style="grid-column:1 / -1" class="card form-wrap">
+        <form id="applyForm">
+          <div class="step-card" data-step="1">
+            <h3>1. Info básica</h3>
+            <label>Nick Discord*</label>
+            <input name="discord" required>
+            <label>Minecraft Nick*</label>
+            <input name="mc" required>
+          </div>
 
-      <button type="submit">Enviar Postulación</button>
-    </form>
+          <div class="step-card" data-step="2">
+            <h3>2. Motivación</h3>
+            <label>¿Por qué quieres ser parte del equipo?</label>
+            <textarea name="motive"></textarea>
+          </div>
 
-    <p id="mensaje"></p>
+          <div class="step-card" data-step="3">
+            <h3>3. Experiencia</h3>
+            <label>¿Tienes experiencia previa?</label>
+            <textarea name="exp"></textarea>
+          </div>
+
+          <div class="controls">
+            <button type="button" id="prevBtn" class="btn ghost">Anterior</button>
+            <div>
+              <button type="button" id="nextBtn" class="btn">Siguiente</button>
+              <button type="submit" id="sendBtn" class="btn" style="display:none;">Enviar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+    <footer>© GodestMC</footer>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const webhookUrl = "PEGAR_AQUI_TU_WEBHOOK"; // cambia esto
+
+    const form = document.getElementById('applyForm');
+    const steps = Array.from(document.querySelectorAll('[data-step]'));
+    const bar = document.getElementById('bar');
+    const currentSection = document.getElementById('currentSection');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const sendBtn = document.getElementById('sendBtn');
+    const roleSelect = document.getElementById('role');
+
+    let stepIndex = 0;
+    function showStep(i){
+      steps.forEach((s,idx)=>s.style.display = idx===i?'block':'none');
+      prevBtn.style.display = i===0?'none':'inline-block';
+      nextBtn.style.display = i===steps.length-1?'none':'inline-block';
+      sendBtn.style.display = i===steps.length-1?'inline-block':'none';
+      bar.style.width = ((i+1)/steps.length*100)+'%';
+      currentSection.innerText = i+1;
+    }
+    showStep(stepIndex);
+
+    nextBtn.onclick = ()=>{ if(stepIndex<steps.length-1){stepIndex++;showStep(stepIndex);} }
+    prevBtn.onclick = ()=>{ if(stepIndex>0){stepIndex--;showStep(stepIndex);} }
+
+    form.onsubmit = async e=>{
+      e.preventDefault();
+      const fd = new FormData(form);
+      const data = Object.fromEntries(fd.entries());
+      data.role = roleSelect.value;
+
+      const embed = {
+        title: "📩 Nueva postulación",
+        color: 44678,
+        fields: Object.keys(data).map(k=>({name:k, value:data[k]||"—", inline:false})),
+        timestamp: new Date()
+      };
+
+      try{
+        await fetch(webhookUrl,{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify({embeds:[embed]})
+        });
+        alert("✅ Postulación enviada al Discord");
+        form.reset(); stepIndex=0; showStep(stepIndex);
+      }catch(err){
+        alert("❌ Error al enviar: "+err);
+      }
+    };
+  </script>
 </body>
 </html>
