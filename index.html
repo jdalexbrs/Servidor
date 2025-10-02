@@ -1,276 +1,523 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>GodestMC — Postulaciones</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-/* 🌌 Estilos base */
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:"Poppins",sans-serif;
-  min-height:100vh;
-  background:linear-gradient(135deg,#0f172a,#1e3a8a,#0ea5e9);
-  background-size:400% 400%;
-  animation:bgFlow 18s ease infinite;
-  display:flex;justify-content:center;align-items:center;
-  padding:20px;color:#f1f5f9;
-}
-@keyframes bgFlow{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
-}
-.container{
-  width:100%;max-width:800px;
-  background:rgba(255,255,255,0.06);
-  border-radius:20px;
-  padding:30px;
-  backdrop-filter:blur(18px);
-  box-shadow:0 10px 40px rgba(0,0,0,.4);
-  animation:fadeIn .8s ease;
-}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-h1{text-align:center;font-weight:800;font-size:2rem;margin-bottom:20px;color:#fff;text-shadow:0 0 10px rgba(14,165,233,.6)}
-.progress{height:10px;background:rgba(255,255,255,0.15);border-radius:999px;overflow:hidden;margin:10px 0 25px}
-.progress i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#0ea5e9,#38bdf8,#3b82f6);transition:width .6s cubic-bezier(.4,.0,.2,1)}
-.step-card{display:none;animation:fadeIn .6s ease;}
-.step-card.active{display:block;}
-label{display:block;margin:14px 0 6px;font-size:.9rem;font-weight:600}
-input,textarea,select{
-  width:100%;padding:12px;
-  border:none;border-radius:12px;
-  background:rgba(255,255,255,0.1);
-  color:#fff;font-size:1rem;
-  outline:none;transition:.2s;
-}
-input:focus,textarea:focus,select:focus{
-  background:rgba(255,255,255,0.2);box-shadow:0 0 0 2px #38bdf8;
-}
-textarea{min-height:90px;resize:vertical}
-select{appearance:none}
-select option{background:#0f172a;color:#f1f5f9}
-.controls{margin-top:20px;display:flex;justify-content:space-between;gap:12px}
-.btn{flex:1;background:linear-gradient(90deg,#3b82f6,#0ea5e9);padding:12px;border:none;border-radius:12px;color:#fff;font-weight:600;font-size:1rem;cursor:pointer;transition:.3s;box-shadow:0 6px 20px rgba(14,165,233,.4)}
-.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(14,165,233,.6)}
-.btn.ghost{background:transparent;border:2px solid rgba(255,255,255,.3);box-shadow:none}
-.btn.ghost:hover{background:rgba(255,255,255,.1)}
-footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,.6)}
+  /* 🌌 Estilos base */
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:"Poppins",sans-serif;
+    min-height:100vh;
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#0ea5e9);
+    background-size:400% 400%;
+    animation:bgFlow 18s ease infinite;
+    display:flex;justify-content:center;align-items:center;
+    padding:20px;color:#f1f5f9;
+  }
+  @keyframes bgFlow{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+  }
 
-/* 📱 Responsive */
-@media (max-width: 600px) {
-  h1 { font-size: 1.5rem; }
-  .container { padding: 20px; }
-  .controls { flex-direction: column; }
-  .btn { width: 100%; }
-}
+  .container{
+    width:100%;max-width:820px;
+    background:rgba(255,255,255,0.06);
+    border-radius:20px;
+    padding:28px;
+    backdrop-filter:blur(18px);
+    box-shadow:0 10px 40px rgba(0,0,0,.4);
+    animation:fadeIn .8s ease;
+  }
+  @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+  h1{text-align:center;font-weight:800;font-size:2rem;margin-bottom:16px;color:#fff;text-shadow:0 0 10px rgba(14,165,233,.6)}
+  .progress{height:10px;background:rgba(255,255,255,0.15);border-radius:999px;overflow:hidden;margin:10px 0 18px}
+  .progress i{display:block;height:100%;width:0%;background:linear-gradient(90deg,#0ea5e9,#38bdf8,#3b82f6);transition:width .5s cubic-bezier(.4,.0,.2,1)}
+  .step-card{display:none;animation:fadeIn .6s ease;padding:6px 0;}
+  .step-card.active{display:block;}
+  label{display:block;margin:12px 0 6px;font-size:.92rem;font-weight:600}
+  input,textarea,select{
+    width:100%;padding:12px;
+    border:none;border-radius:12px;
+    background:rgba(255,255,255,0.08);
+    color:#fff;font-size:1rem;
+    outline:none;transition:.18s;
+  }
+  input:focus,textarea:focus,select:focus{
+    background:rgba(255,255,255,0.14);box-shadow:0 0 0 2px #38bdf8;
+  }
+  textarea{min-height:100px;resize:vertical}
+  select{appearance:none}
+  select option{background:#0f172a;color:#f1f5f9}
+  .controls{margin-top:18px;display:flex;justify-content:space-between;gap:12px}
+  .btn{flex:1;background:linear-gradient(90deg,#3b82f6,#0ea5e9);padding:12px;border:none;border-radius:12px;color:#fff;font-weight:600;font-size:1rem;cursor:pointer;transition:.25s;box-shadow:0 6px 18px rgba(14,165,233,.32)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(14,165,233,.54)}
+  .btn.ghost{background:transparent;border:2px solid rgba(255,255,255,.18);box-shadow:none}
+  .btn.ghost:hover{background:rgba(255,255,255,.04)}
+  .btn:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+  footer{margin-top:18px;text-align:center;font-size:.8rem;color:rgba(255,255,255,.6)}
+
+  /* Validation visuals */
+  .invalid{
+    border:1px solid rgba(255,90,90,0.6) !important;
+    box-shadow:0 0 0 3px rgba(255,90,90,0.06) !important;
+  }
+  @keyframes shake {
+    0%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}100%{transform:translateX(0)}
+  }
+  .animate-shake{animation:shake .36s}
+
+  /* Tarjeta bienvenida */
+  .welcome-card{
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border-radius:14px;padding:18px;border:1px solid rgba(255,255,255,0.04);
+    box-shadow:0 6px 20px rgba(2,6,23,0.45);
+  }
+  .chip{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);font-weight:600;margin-bottom:8px}
+  .welcome-title{font-size:1.6rem;margin-bottom:8px;color:#38bdf8;font-weight:800}
+  .welcome-sub{color:#e6eefc;margin-bottom:12px}
+  .bullets{background:rgba(255,255,255,0.03);padding:12px;border-radius:12px}
+  .bullets p{margin-bottom:8px}
+
+  /* Responsive */
+  @media (max-width:640px){
+    .container{padding:18px}
+    h1{font-size:1.4rem}
+    .welcome-title{font-size:1.3rem}
+    .controls{flex-direction:column}
+    .btn{width:100%}
+  }
 </style>
 </head>
 <body>
 <div class="container" id="mainContainer">
-<h1>⚡ Postulaciones GodestMC</h1>
-<div class="progress"><i id="bar"></i></div>
-<div style="text-align:center;margin-bottom:15px">Sección <span id="currentStep">1</span> de 9</div>
+  <h1>⚡ Postulaciones GodestMC</h1>
+  <div class="progress"><i id="bar"></i></div>
+  <div style="text-align:center;margin-bottom:14px">Sección <span id="currentStep">1</span> de <span id="totalSteps">9</span></div>
 
-<form id="applyForm">
-  <!-- Paso 1 - Bienvenida mejorada -->
-  <div class="step-card active" data-step="1">
-    <div style="text-align:center; padding:20px;">
-      <h2 style="font-size:1.8rem; font-weight:700; color:#38bdf8; margin-bottom:12px;">
-        🌟 Bienvenido al Formulario Oficial de Postulación 🌟
-      </h2>
-      <p style="font-size:1.1rem; color:#e2e8f0; margin-bottom:16px;">
-        ¿Quieres formar parte del <strong style="color:#3b82f6;">Staff Team de GodestMC</strong>?
-      </p>
-      <div style="background:rgba(255,255,255,0.08); border-radius:16px; padding:18px; text-align:left; box-shadow:0 6px 18px rgba(0,0,0,.3);">
-        <p style="font-size:1rem; margin-bottom:10px; color:#f8fafc;">
-          🔹 Este formulario es tu <strong style="color:#38bdf8;">carta de presentación</strong> ante el Staff.
-        </p>
-        <p style="font-size:1rem; margin-bottom:10px; color:#f8fafc;">
-          🔹 Responde <strong style="color:#38bdf8;">con sinceridad y detalle</strong>.
-        </p>
-        <p style="font-size:1rem; color:#f8fafc;">
-          🔹 ¡Haz que cada respuesta cuente 🚀!
-        </p>
+  <form id="applyForm" autocomplete="off" novalidate>
+    <!-- Paso 1 - Bienvenida mejorada -->
+    <div class="step-card active" data-step="1">
+      <div class="welcome-card">
+        <div class="chip">Formulario Oficial</div>
+        <div class="welcome-title">🌟 Bienvenido al Formulario de Postulación 🌟</div>
+        <div class="welcome-sub">¿Quieres formar parte del <strong style="color:#3b82f6">Staff Team</strong> de GodestMC? Responde con calma y detalle — esto cuenta como tu carta de presentación.</div>
+        <div class="bullets">
+          <p>🔹 Asegúrate de leer los requisitos antes de postular.</p>
+          <p>🔹 Respuestas claras y completas aumentan tus posibilidades.</p>
+          <p style="margin-top:8px">🔸 Consejo: ten a mano tus nicks y experiencia previa para completar el formulario rápido.</p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Paso 2 - Requisitos -->
-  <div class="step-card" data-step="2">
-    <p>📌 Antes de empezar asegúrate de cumplir:</p>
-    <ul>
-      <li>✅ Al menos 1 día en Discord o 2h jugadas.</li>
-      <li>✅ No tener sanciones.</li>
-      <li>✅ Tener 14 años mínimo.</li>
-      <li>✅ Micrófono no obligatorio, pero suma puntos.</li>
-    </ul>
-  </div>
+    <!-- Paso 2 - Requisitos -->
+    <div class="step-card" data-step="2">
+      <div class="welcome-card">
+        <div class="chip">Requisitos</div>
+        <div style="margin-top:8px" class="bullets">
+          <p>✅ Tener al menos 1 día en Discord o 2h en el servidor.</p>
+          <p>✅ No tener sanciones vigentes.</p>
+          <p>✅ Tener 14 años mínimo.</p>
+          <p>✅ Micrófono no obligatorio, pero ayuda.</p>
+        </div>
+      </div>
+    </div>
 
-  <!-- Paso 3 - Info básica -->
-  <div class="step-card" data-step="3">
-    <label>Nick en Discord*</label>
-    <input name="discord" required>
-    <label>Nick en Minecraft*</label>
-    <input name="mc" required>
-    <label>¿Has sido staff/dev/beta previamente?*</label>
-    <textarea name="exp" required></textarea>
-  </div>
+    <!-- Paso 3 - Info básica -->
+    <div class="step-card" data-step="3">
+      <label>Nick en Discord <span style="color:#a5b4fc">*</span></label>
+      <input name="discord" required placeholder="Ej: mini_jdalex_brs" />
+      <label>Nick en Minecraft <span style="color:#a5b4fc">*</span></label>
+      <input name="mc" required placeholder="Ej: jdalexbrs" />
+      <label>¿Has sido staff/dev/beta previamente? (indica servidor, fechas y rol) <span style="color:#a5b4fc">*</span></label>
+      <textarea name="exp" required placeholder="Si no, escribe 'No'"></textarea>
+    </div>
 
-  <!-- Paso 4 - Disponibilidad -->
-  <div class="step-card" data-step="4">
-    <label>País y zona horaria*</label>
-    <input name="country" required>
-    <label>Horas semanales que puedes dedicar*</label>
-    <input name="hours" required>
-    <label>Días disponibles*</label>
-    <textarea name="days" required></textarea>
-  </div>
+    <!-- Paso 4 - Disponibilidad -->
+    <div class="step-card" data-step="4">
+      <label>País y zona horaria <span style="color:#a5b4fc">*</span></label>
+      <input name="country" required placeholder="Ej: España — Madrid (GMT+2)" />
+      <label>Horas semanales que puedes dedicar <span style="color:#a5b4fc">*</span></label>
+      <input name="hours" required placeholder="Ej: 6" />
+      <label>Días disponibles (separa con comas) <span style="color:#a5b4fc">*</span></label>
+      <input name="days" required placeholder="Ej: Lunes, Miércoles, Viernes" />
+    </div>
 
-  <!-- Paso 5 - Rol -->
-  <div class="step-card" data-step="5">
-    <label>¿Rol al que te postulas?*</label>
-    <select name="role" id="roleSelect" required>
-      <option value="">— Selecciona —</option>
-      <option value="staff">Staff</option>
-      <option value="dev">Dev</option>
-      <option value="beta">Beta Tester</option>
-    </select>
-  </div>
+    <!-- Paso 5 - Rol -->
+    <div class="step-card" data-step="5">
+      <label>¿Rol al que te postulas? <span style="color:#a5b4fc">*</span></label>
+      <select name="role" id="roleSelect" required>
+        <option value="">— Selecciona —</option>
+        <option value="staff">Staff (Soporte)</option>
+        <option value="dev">Dev</option>
+        <option value="beta">Beta Tester</option>
+      </select>
+    </div>
 
-  <!-- Paso 6 - Staff -->
-  <div class="step-card role staff" data-step="6">
-    <label>En caso de que 2 usuarios se peleen, ¿qué harías?*</label>
-    <textarea name="staff_conflict"></textarea>
-    <label>Si un amigo rompe reglas, ¿cómo reaccionarías?*</label>
-    <textarea name="staff_friend"></textarea>
-    <label>Si asciendes a manager, ¿cómo sería tu comportamiento?*</label>
-    <textarea name="staff_manager"></textarea>
-    <label>¿Por qué deberíamos elegirte a ti?*</label>
-    <textarea name="staff_why"></textarea>
-    <label>¿Por qué quieres ser staff en Godest?*</label>
-    <textarea name="staff_motive"></textarea>
-    <label>¿Qué significa para ti ser staff en Godest?*</label>
-    <textarea name="staff_meaning"></textarea>
-    <label>Descríbete en pocas palabras*</label>
-    <textarea name="staff_self"></textarea>
-    <label>¿Respetarías las decisiones superiores aunque no estés de acuerdo?*</label>
-    <textarea name="staff_respect"></textarea>
-    <label>¿Qué harías para mejorar la comunidad?*</label>
-    <textarea name="staff_improve"></textarea>
-  </div>
+    <!-- Paso 6 - Staff (visible solo si role === 'staff') -->
+    <div class="step-card role staff" data-step="6">
+      <label>En caso de que 2 usuarios se peleen, ¿qué harías? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="staff_conflict" required></textarea>
 
-  <!-- Paso 7 - Dev -->
-  <div class="step-card role dev" data-step="7">
-    <label>¿Qué lenguajes de programación dominas?*</label>
-    <textarea name="dev_langs"></textarea>
-    <label>¿Qué significa para ti ser staff en un servidor de Minecraft?*</label>
-    <textarea name="dev_meaning"></textarea>
-    <label>¿Sabes manejar eventos de Minecraft en código?*</label>
-    <select name="dev_events">
-      <option value="">Selecciona</option>
-      <option>Sí</option>
-      <option>No</option>
-    </select>
-    <label>¿Por qué quieres ser Dev en Godest?*</label>
-    <textarea name="dev_motive"></textarea>
-  </div>
+      <label>Ves a un amigo rompiendo reglas, ¿cómo reaccionarías? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="staff_friend" required></textarea>
 
-  <!-- Paso 8 - Beta Tester -->
-  <div class="step-card role beta" data-step="8">
-    <label>¿Por qué quieres ser Beta Tester en Godest?*</label>
-    <textarea name="beta_motive"></textarea>
-    <label>¿Por qué deberíamos elegirte como tester?*</label>
-    <textarea name="beta_why"></textarea>
-    <label>¿Prefieres testear mecánicas o errores visuales? ¿Por qué?*</label>
-    <textarea name="beta_pref"></textarea>
-  </div>
+      <label>Si asciendes a manager, ¿cómo sería tu comportamiento? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="staff_manager" required></textarea>
 
-  <!-- Paso 9 - Extra -->
-  <div class="step-card" data-step="9">
-    <label>¿Algo que añadir?*</label>
-    <textarea name="extra" required></textarea>
-    <p style="font-size:.9rem;color:#cbd5e1;margin-top:8px">
-      Recuerda abrir un ticket en Discord: allí se harán las últimas pruebas.
-    </p>
-  </div>
+      <label>¿Por qué deberíamos elegirte a ti y no a otro postulante? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="staff_why" required></textarea>
 
-  <div class="controls">
-    <button type="button" id="prevBtn" class="btn ghost">Anterior</button>
-    <button type="button" id="nextBtn" class="btn">Siguiente</button>
-    <button type="submit" id="sendBtn" class="btn" style="display:none">Enviar</button>
-  </div>
-</form>
-<footer>Creado con ❤️ por GodestMC</footer>
+      <label>¿Por qué quieres ser staff dentro del servidor? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="staff_motive" required></textarea>
+
+      <label>¿Qué significa para ti ser staff en Godest? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="staff_meaning" required></textarea>
+
+      <label>¿Cómo te describirías en pocas palabras? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="staff_self" required></textarea>
+
+      <label>¿Respetarías las decisiones del staff superior aunque no estés de acuerdo? <span style="color:#a5b4fc">*</span></label>
+      <select name="staff_respect" required>
+        <option value="">Selecciona</option>
+        <option value="Sí">Sí</option>
+        <option value="No">No</option>
+      </select>
+
+      <label>¿Qué harías para mejorar la comunidad si fueras staff? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="staff_improve" required></textarea>
+    </div>
+
+    <!-- Paso 7 - Dev (visible solo si role === 'dev') -->
+    <div class="step-card role dev" data-step="7">
+      <label>¿Qué lenguajes de programación dominas? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="dev_langs" required></textarea>
+
+      <label>¿Qué significa para ti ser staff en un servidor de Minecraft? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="dev_meaning" required></textarea>
+
+      <label>¿Sabes manejar eventos de Minecraft en código? <span style="color:#a5b4fc">*</span></label>
+      <select name="dev_events" required>
+        <option value="">Selecciona</option>
+        <option value="Sí">Sí</option>
+        <option value="No">No</option>
+      </select>
+
+      <label>¿Por qué quieres ser Dev en Godest? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="dev_motive" required></textarea>
+    </div>
+
+    <!-- Paso 8 - Beta Tester (visible solo si role === 'beta') -->
+    <div class="step-card role beta" data-step="8">
+      <label>¿Por qué quieres ser Beta Tester en Godest? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="beta_motive" required></textarea>
+
+      <label>¿Por qué deberíamos elegirte a ti como tester? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="beta_why" required></textarea>
+
+      <label>¿Qué te interesa más: testear mecánicas o reportar errores visuales? ¿Por qué? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="beta_pref" required></textarea>
+    </div>
+
+    <!-- Paso 9 - Extra -->
+    <div class="step-card" data-step="9">
+      <label>¿Algo que añadir? <span style="color:#a5b4fc">*</span></label>
+      <textarea name="extra" required placeholder="Recuerda abrir un ticket en Discord: allí se te harán las últimas pruebas."></textarea>
+      <p style="font-size:.9rem;color:#cbd5e1;margin-top:8px">
+        Recuerda abrir un ticket en Discord: allí se te harán las últimas pruebas.
+      </p>
+    </div>
+
+    <div class="controls">
+      <button type="button" id="prevBtn" class="btn ghost">Anterior</button>
+      <button type="button" id="nextBtn" class="btn">Siguiente</button>
+      <button type="submit" id="sendBtn" class="btn" style="display:none">Enviar</button>
+    </div>
+  </form>
+
+  <footer>Creado con ❤️ por GodestMC</footer>
 </div>
 
 <script>
-const webhookUrl = "https://discord.com/api/webhooks/XXXX/XXXX"; // 🔗 tu webhook
+/* ========= Config ========= */
+const webhookUrl = "https://discord.com/api/webhooks/1423073398023651348/VAdkiXPoQYqI-feNKoiPuBTbwVEM-ORSNFOSTUANV1Bs_zYM1V6LPgBByoU6JBaCV7HT"; // <-- reemplaza por tu webhook
 
+/* ========= Setup ========= */
 const form = document.getElementById("applyForm");
-const steps = Array.from(document.querySelectorAll(".step-card"));
+const allSteps = Array.from(document.querySelectorAll(".step-card"))
+  .sort((a,b) => Number(a.dataset.step) - Number(b.dataset.step));
 const bar = document.getElementById("bar");
 const currentStepEl = document.getElementById("currentStep");
+const totalStepsEl = document.getElementById("totalSteps");
 const prevBtn = document.getElementById("prevBtn");
 const nextBtn = document.getElementById("nextBtn");
 const sendBtn = document.getElementById("sendBtn");
 const roleSelect = document.getElementById("roleSelect");
+const container = document.getElementById("mainContainer");
 
-let stepIndex = 0;
+let stepIndex = 0; // índice dentro de visible steps
 
-function showStep(i){
-  steps.forEach((s,idx)=>{
-    if(s.classList.contains("role")){
-      const role = roleSelect.value;
-      s.classList.toggle("active", idx===i && s.classList.contains(role));
-    }else{
-      s.classList.toggle("active", idx===i);
+function getVisibleSteps(){
+  const role = roleSelect.value;
+  return allSteps.filter(s => {
+    if(s.classList.contains('role')){
+      // sólo mostrar si role seleccionado y coincide
+      return role && s.classList.contains(role);
     }
+    return true;
   });
-  bar.style.width = ((i+1)/steps.length*100)+"%";
-  currentStepEl.textContent = i+1;
-  prevBtn.style.display = i===0?"none":"inline-block";
-  nextBtn.style.display = i===steps.length-1?"none":"inline-block";
-  sendBtn.style.display = i===steps.length-1?"inline-block":"none";
 }
 
-nextBtn.onclick=()=>{ if(stepIndex<steps.length-1){ stepIndex++; showStep(stepIndex); } };
-prevBtn.onclick=()=>{ if(stepIndex>0){ stepIndex--; showStep(stepIndex); } };
+function showCurrentStep(){
+  const visible = getVisibleSteps();
+  if(stepIndex >= visible.length) stepIndex = visible.length - 1;
+  if(stepIndex < 0) stepIndex = 0;
 
-form.onsubmit=async e=>{
+  // toggle visibility
+  allSteps.forEach(s => s.classList.remove('active'));
+  const current = visible[stepIndex];
+  if(current) current.classList.add('active');
+
+  // update progress
+  const total = visible.length;
+  const currentNum = (visible.indexOf(current) + 1) || 1;
+  const progressPct = Math.round((currentNum / Math.max(total,1)) * 100);
+  bar.style.width = progressPct + "%";
+  currentStepEl.textContent = currentNum;
+  totalStepsEl.textContent = total;
+
+  // prev / next / send visibility
+  prevBtn.style.display = (stepIndex === 0) ? "none" : "inline-block";
+  if(stepIndex === visible.length - 1){
+    nextBtn.style.display = "none";
+    sendBtn.style.display = "inline-block";
+  }else{
+    nextBtn.style.display = "inline-block";
+    sendBtn.style.display = "none";
+  }
+
+  // run validation for enabling/disabling next/send
+  validateCurrentStep();
+}
+
+function getRequiredFieldsForCurrent(){
+  const visible = getVisibleSteps();
+  const current = visible[stepIndex];
+  if(!current) return [];
+  return Array.from(current.querySelectorAll('input[required],textarea[required],select[required]'));
+}
+
+function validateCurrentStep(){
+  const requiredFields = getRequiredFieldsForCurrent();
+  if(requiredFields.length === 0){
+    nextBtn.disabled = false;
+    sendBtn.disabled = false;
+    return true;
+  }
+  let allFilled = true;
+  requiredFields.forEach(f => {
+    const val = (f.value || "").toString().trim();
+    if(val === ""){
+      allFilled = false;
+    }
+  });
+  nextBtn.disabled = !allFilled;
+  sendBtn.disabled = !allFilled;
+  return allFilled;
+}
+
+/* Add listeners to fields to revalidate on input/change */
+function bindFieldListeners(){
+  const fields = form.querySelectorAll('input,textarea,select');
+  fields.forEach(f => {
+    const ev = (f.tagName.toLowerCase() === 'select') ? 'change' : 'input';
+    f.addEventListener(ev, () => {
+      if(f.classList.contains('invalid') && (f.value||"").toString().trim() !== ""){
+        f.classList.remove('invalid');
+      }
+      validateCurrentStep();
+    });
+    // remove invalid on focus
+    f.addEventListener('focus', () => f.classList.remove('invalid'));
+  });
+}
+
+/* When clicking next: if invalid, highlight empties with animation */
+nextBtn.addEventListener('click', () => {
+  if(!validateCurrentStep()){
+    // highlight empties
+    const empties = getRequiredFieldsForCurrent().filter(f => (f.value||"").toString().trim() === "");
+    empties.forEach(f => {
+      f.classList.add('invalid');
+      f.classList.add('animate-shake');
+      setTimeout(() => f.classList.remove('animate-shake'), 380);
+    });
+    return;
+  }
+  const visible = getVisibleSteps();
+  if(stepIndex < visible.length - 1){ stepIndex++; showCurrentStep(); }
+});
+
+prevBtn.addEventListener('click', () => {
+  if(stepIndex > 0){ stepIndex--; showCurrentStep(); }
+});
+
+/* If role changes, recompute visible steps and stay on appropriate place */
+roleSelect.addEventListener('change', () => {
+  // if role selected and the currently visible step is the role selector, stay there until user clicks next
+  // but we must ensure validation updates (enables next)
+  // also if role unset, might need to move index back to a valid value
+  const visible = getVisibleSteps();
+  // If current step's element is not in visible (possible when role unselected), reset to nearest valid index
+  const currentVisible = visible[stepIndex];
+  if(!currentVisible){
+    stepIndex = 0;
+  }
+  showCurrentStep();
+});
+
+/* Validation helper for final submission: ensure all required visible fields are filled */
+function validateAllVisible(){
+  const visible = getVisibleSteps();
+  let ok = true;
+  visible.forEach((s, idx) => {
+    const fields = Array.from(s.querySelectorAll('input[required],textarea[required],select[required]'));
+    fields.forEach(f => {
+      if((f.value||"").toString().trim() === ""){
+        ok = false;
+        // if it's in a different step, mark it invalid visually anyway
+        f.classList.add('invalid');
+      }
+    });
+  });
+  return ok;
+}
+
+/* Friendly names for embed */
+const friendlyNames = {
+  discord: "👤 Nick en Discord",
+  mc: "🎮 Nick en Minecraft",
+  country: "🌍 País / Zona",
+  hours: "⏱ Horas semanales",
+  days: "📅 Días disponibles",
+  role: "📌 Rol postulado",
+  exp: "⚙️ Experiencia previa",
+  extra: "➕ Extra",
+  staff_conflict: "🛡 En caso de peleas",
+  staff_friend: "👥 Amigo rompe reglas",
+  staff_manager: "⚖️ Comportamiento como manager",
+  staff_why: "🤝 Por qué elegirte",
+  staff_motive: "📝 Motivo para ser staff",
+  staff_meaning: "💡 Significado de ser staff",
+  staff_self: "🧍 Descríbete",
+  staff_respect: "✅ Respetar decisiones superiores",
+  staff_improve: "🔧 Cómo mejorar la comunidad",
+  dev_langs: "💻 Lenguajes que dominas",
+  dev_meaning: "💡 Significado de ser dev",
+  dev_events: "🧩 Manejo de eventos",
+  dev_motive: "⚙️ Motivo para ser dev",
+  beta_motive: "🧪 Motivo Beta Tester",
+  beta_why: "🔎 Por qué elegirte como tester",
+  beta_pref: "🔍 Preferencia de testeo"
+};
+
+/* Trunca texto para embeds (limite ~1024 por field en Discord) */
+function safeText(v, limit = 900){
+  if(!v) return "—";
+  const s = String(v).trim();
+  if(s.length <= limit) return s;
+  return s.slice(0, limit) + "… (truncado)";
+}
+
+/* Submit handler */
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
+
+  // final validation across visible steps
+  if(!validateAllVisible()){
+    // find first empty and navigate to its step
+    const visible = getVisibleSteps();
+    for(let i=0;i<visible.length;i++){
+      const fields = Array.from(visible[i].querySelectorAll('input[required],textarea[required],select[required]'));
+      const firstEmpty = fields.find(f => (f.value||"").toString().trim() === "");
+      if(firstEmpty){
+        stepIndex = i;
+        showCurrentStep();
+        firstEmpty.classList.add('invalid');
+        firstEmpty.focus();
+        break;
+      }
+    }
+    return;
+  }
+
+  // gather form data (only visible inputs will be in formData)
   const fd = new FormData(form);
   const data = Object.fromEntries(fd.entries());
 
+  // Build embed fields with friendly names
+  const embedFields = [];
+  for(const [k,v] of Object.entries(data)){
+    const name = friendlyNames[k] || k;
+    embedFields.push({
+      name,
+      value: safeText(v),
+      inline: false
+    });
+  }
+
+  // Add a small metadata field
+  embedFields.unshift({ name: "🕒 Enviado", value: new Date().toLocaleString(), inline: true });
+  embedFields.unshift({ name: "🔰 Formulario", value: "Postulación GodestMC", inline: true });
+
   const embed = {
-    title:"📩 Nueva Postulación — GodestMC",
-    color:0x0ea5e9,
-    fields:Object.entries(data).map(([k,v])=>({name:k,value:v||"—"})),
-    footer:{text:"GodestMC — Sistema de Postulación"},
-    timestamp:new Date()
+    title: "📩 Nueva Postulación — GodestMC",
+    color: 0x0ea5e9,
+    fields: embedFields,
+    footer: {
+      text: "GodestMC — Sistema de Postulación"
+    },
+    timestamp: new Date().toISOString()
   };
 
-  try{
-    await fetch(webhookUrl,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({embeds:[embed]})
+  // disable send button to prevent duplicates
+  sendBtn.disabled = true;
+  sendBtn.textContent = "Enviando...";
+
+  try {
+    const res = await fetch(webhookUrl, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ embeds: [embed] })
     });
-    document.getElementById("mainContainer").innerHTML=`
-      <div style="text-align:center;padding:40px">
-        <h1>✅ Postulación enviada</h1>
-        <p style="margin-top:12px;font-size:1.1rem;color:#e2e8f0">
-          Recuerda abrir un ticket en el Discord, allí se te harán las últimas pruebas.
-        </p>
+
+    if(!res.ok){
+      throw new Error(`Webhook devolvió ${res.status}`);
+    }
+
+    // Success: replace container with confirmation
+    container.innerHTML = `
+      <div style="text-align:center;padding:36px">
+        <h1 style="margin-bottom:12px">✅ Postulación enviada</h1>
+        <p style="color:#e2e8f0;font-size:1rem">Recuerda abrir un ticket en Discord: allí se te harán las últimas pruebas.</p>
+        <p style="color:rgba(255,255,255,0.6);margin-top:12px;font-size:0.9rem">Gracias por postularte — el Staff revisará tu postulación pronto.</p>
       </div>
     `;
-  }catch(err){
-    alert("❌ Error al enviar: "+err);
+  } catch(err){
+    console.error(err);
+    sendBtn.disabled = false;
+    sendBtn.textContent = "Enviar";
+    alert("❌ Error al enviar la postulación: " + err.message);
   }
-};
+});
 
-showStep(stepIndex);
+/* Inicialización */
+bindFieldListeners();
+showCurrentStep();
 </script>
 </body>
 </html>
