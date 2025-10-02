@@ -64,9 +64,33 @@
       outline:none;transition:.2s;
     }
     input:focus,textarea:focus,select:focus{
-      background:rgba(255,255,255,0.2);box-shadow:0 0 0 2px #38bdf8;
+      background:rgba(255,255,255,0.2);box-shadow:0 0 0 2 #38bdf8;
     }
     textarea{min-height:90px;resize:vertical}
+
+    /* Estilo corregido para el select */
+    select {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+      transition: .2s;
+      appearance: none; /* quita el estilo por defecto */
+    }
+
+    select:focus {
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 0 0 2px #38bdf8;
+    }
+
+    select option {
+      background: #0f172a; /* fondo oscuro para las opciones */
+      color: #f1f5f9;      /* texto claro */
+    }
 
     .controls{
       margin-top:20px;display:flex;justify-content:space-between;gap:12px;
