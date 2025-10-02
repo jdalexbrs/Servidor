@@ -60,11 +60,6 @@ body::before{
 .theme-toggle{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.1);border:none;border-radius:12px;padding:10px;cursor:pointer;font-size:1.2rem;transition:.3s}
 .theme-toggle:hover{background:rgba(255,255,255,.2);transform:scale(1.1)}
 
-.lang-selector{position:absolute;top:20px;left:20px;display:flex;gap:8px}
-.lang-btn{background:rgba(255,255,255,.1);border:2px solid transparent;border-radius:8px;padding:6px 12px;color:#fff;cursor:pointer;font-size:.85rem;transition:.3s}
-.lang-btn.active{background:rgba(14,165,233,.3);border-color:#0ea5e9}
-.lang-btn:hover{background:rgba(255,255,255,.2)}
-
 h1{
   text-align:center;font-weight:800;font-size:2.2rem;margin-bottom:10px;
   background:linear-gradient(135deg,#38bdf8,#0ea5e9,#7c3aed);
@@ -163,15 +158,23 @@ body.light{background:#e0f2fe}
 body.light::before{background:linear-gradient(135deg,#e0f2fe,#bae6fd,#7dd3fc)}
 body.light .container{background:rgba(255,255,255,.9);color:#0f172a;border-color:rgba(14,165,233,.3)}
 body.light input,body.light textarea,body.light select{background:rgba(14,165,233,.05);color:#0f172a;border-color:rgba(14,165,233,.2)}
+body.light input::placeholder,body.light textarea::placeholder{color:rgba(15,23,42,0.4)}
+body.light select option{background:#fff;color:#0f172a}
 body.light h1{-webkit-text-fill-color:#0f172a}
 body.light label{color:#0f172a}
+body.light .subtitle{color:#0f172a}
+body.light .step-indicator span{color:#0f172a}
+body.light .quality-label{color:#0f172a}
+body.light .validation-msg.error{color:#dc2626}
+body.light .validation-msg.success{color:#059669}
+body.light footer{color:rgba(15,23,42,.7)}
+body.light .char-count{color:rgba(15,23,42,.6)}
 
 @media(max-width:600px){
   .container{padding:25px}
   h1{font-size:1.8rem}
   .controls{flex-direction:column;}
   .btn{width:100%;}
-  .lang-selector{position:static;margin-bottom:15px;justify-content:center}
 }
 
 /* Confetti */
@@ -188,25 +191,20 @@ body.light label{color:#0f172a}
 <div class="particles" id="particles"></div>
 
 <div class="container">
-<div class="lang-selector">
-  <button class="lang-btn active" data-lang="es">🇪🇸 ES</button>
-  <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
-  <button class="lang-btn" data-lang="pt">🇧🇷 PT</button>
-</div>
 <button class="theme-toggle" id="themeToggle">🌙</button>
 
-<h1 id="title">⚡ Postulaciones GodestMC</h1>
-<p class="subtitle" id="subtitle">Completa el formulario para unirte al equipo</p>
+<h1>⚡ Postulaciones GodestMC</h1>
+<p class="subtitle">Completa el formulario para unirte al equipo</p>
 
 <div class="progress"><i id="bar"></i></div>
 <div class="step-indicator">
-  <span id="stepText">Pregunta <span id="currentStep">1</span> de <span id="totalSteps"></span></span>
+  <span>Pregunta <span id="currentStep">1</span> de <span id="totalSteps"></span></span>
   <span class="timer" id="timer">⏱️ 0:00</span>
 </div>
 
 <div class="quality-bar">
   <div class="quality-label">
-    <span id="qualityText">📊 Calidad de postulación</span>
+    <span>📊 Calidad de postulación</span>
     <span id="qualityPercent">0%</span>
   </div>
   <div class="quality-fill"><div id="qualityBar" style="width:0%"></div></div>
@@ -215,7 +213,7 @@ body.light label{color:#0f172a}
 <form id="applyForm">
   <!-- Pregunta 1: Rol -->
   <div class="step-card active" data-step="1">
-    <label>🎯 <span id="q1">¿Rol al que te postulas?</span> <span class="required">*</span></label>
+    <label>🎯 ¿Rol al que te postulas? <span class="required">*</span></label>
     <select name="role" required>
       <option value="">— Selecciona —</option>
       <option value="staff">Staff</option>
@@ -227,14 +225,14 @@ body.light label{color:#0f172a}
 
   <!-- Pregunta 2 -->
   <div class="step-card" data-step="2">
-    <label>💬 <span id="q2">Nick en Discord</span> <span class="required">*</span></label>
+    <label>💬 Nick en Discord <span class="required">*</span></label>
     <input name="discord" required placeholder="Ej: usuario#1234 o @usuario">
     <div class="validation-msg" id="val-discord"></div>
   </div>
 
   <!-- Pregunta 3 -->
   <div class="step-card" data-step="3">
-    <label>🎮 <span id="q3">Nick en Minecraft</span> <span class="required">*</span></label>
+    <label>🎮 Nick en Minecraft <span class="required">*</span></label>
     <input name="mc" required placeholder="Ej: jdalexbrs" minlength="3" maxlength="16">
     <div class="validation-msg" id="val-mc"></div>
   </div>
@@ -242,7 +240,7 @@ body.light label{color:#0f172a}
   <!-- Pregunta 4 -->
   <div class="step-card" data-step="4">
     <label>
-      📋 <span id="q4">¿Has sido staff/dev/beta previamente?</span> <span class="required">*</span>
+      📋 ¿Has sido staff/dev/beta previamente? <span class="required">*</span>
       <span class="char-count"><span id="exp-count">0</span>/500</span>
     </label>
     <textarea name="exp" required maxlength="500"></textarea>
@@ -255,7 +253,7 @@ body.light label{color:#0f172a}
 
   <!-- Pregunta 5 -->
   <div class="step-card" data-step="5">
-    <label>🌍 <span id="q5">País y zona horaria</span> <span class="required">*</span></label>
+    <label>🌍 País y zona horaria <span class="required">*</span></label>
     <input name="country" required placeholder="Ej: España (GMT+2)">
     <div class="quick-options">
       <button type="button" class="quick-btn" data-fill="country" data-text="España (GMT+1/+2)">🇪🇸 España</button>
@@ -269,14 +267,14 @@ body.light label{color:#0f172a}
 
   <!-- Pregunta 6 -->
   <div class="step-card" data-step="6">
-    <label>⏰ <span id="q6">Horas semanales disponibles</span> <span class="required">*</span></label>
+    <label>⏰ Horas semanales disponibles <span class="required">*</span></label>
     <input name="hours" type="number" required placeholder="Ej: 15" min="1" max="168">
     <div class="validation-msg" id="val-hours"></div>
   </div>
 
   <!-- Pregunta 7 -->
   <div class="step-card" data-step="7">
-    <label>📅 <span id="q7">Días disponibles de la semana</span> <span class="required">*</span></label>
+    <label>📅 Días disponibles de la semana <span class="required">*</span></label>
     <input name="days" required placeholder="Ej: Lunes, Martes, Viernes">
     <div class="quick-options">
       <button type="button" class="quick-btn" data-fill="days" data-text="Todos los días">🗓️ Todos</button>
@@ -289,7 +287,7 @@ body.light label{color:#0f172a}
   <!-- Staff -->
   <div class="step-card staff-only" data-step="8">
     <label>
-      ⚖️ <span id="q8s">¿Cómo resolverías un conflicto entre usuarios?</span> <span class="required">*</span>
+      ⚖️ ¿Cómo resolverías un conflicto entre usuarios? <span class="required">*</span>
       <span class="char-count"><span id="staff_conflict-count">0</span>/800</span>
     </label>
     <textarea name="staff_conflict" maxlength="800"></textarea>
@@ -297,7 +295,7 @@ body.light label{color:#0f172a}
   </div>
   <div class="step-card staff-only" data-step="9">
     <label>
-      💡 <span id="q9s">¿Por qué quieres ser staff?</span> <span class="required">*</span>
+      💡 ¿Por qué quieres ser staff? <span class="required">*</span>
       <span class="char-count"><span id="staff_motive-count">0</span>/800</span>
     </label>
     <textarea name="staff_motive" maxlength="800"></textarea>
@@ -307,7 +305,7 @@ body.light label{color:#0f172a}
   <!-- Dev -->
   <div class="step-card dev-only" data-step="8">
     <label>
-      💻 <span id="q8d">¿Qué lenguajes de programación dominas?</span> <span class="required">*</span>
+      💻 ¿Qué lenguajes de programación dominas? <span class="required">*</span>
       <span class="char-count"><span id="dev_langs-count">0</span>/500</span>
     </label>
     <textarea name="dev_langs" maxlength="500"></textarea>
@@ -320,7 +318,7 @@ body.light label{color:#0f172a}
     <div class="validation-msg" id="val-dev_langs"></div>
   </div>
   <div class="step-card dev-only" data-step="9">
-    <label>🔧 <span id="q9d">¿Sabes manejar eventos de Minecraft?</span> <span class="required">*</span></label>
+    <label>🔧 ¿Sabes manejar eventos de Minecraft? <span class="required">*</span></label>
     <select name="dev_events">
       <option value="">— Selecciona —</option>
       <option value="sí-experto">Sí, soy experto</option>
@@ -334,7 +332,7 @@ body.light label{color:#0f172a}
   <!-- Beta -->
   <div class="step-card beta-only" data-step="8">
     <label>
-      💡 <span id="q8b">¿Por qué quieres ser Beta Tester?</span> <span class="required">*</span>
+      💡 ¿Por qué quieres ser Beta Tester? <span class="required">*</span>
       <span class="char-count"><span id="beta_motive-count">0</span>/800</span>
     </label>
     <textarea name="beta_motive" maxlength="800"></textarea>
@@ -342,7 +340,7 @@ body.light label{color:#0f172a}
   </div>
   <div class="step-card beta-only" data-step="9">
     <label>
-      🔍 <span id="q9b">¿Prefieres testear mecánicas o reportar bugs?</span> <span class="required">*</span>
+      🔍 ¿Prefieres testear mecánicas o reportar bugs? <span class="required">*</span>
       <span class="char-count"><span id="beta_pref-count">0</span>/500</span>
     </label>
     <textarea name="beta_pref" maxlength="500"></textarea>
@@ -357,7 +355,7 @@ body.light label{color:#0f172a}
   <!-- Final -->
   <div class="step-card" data-step="10">
     <label>
-      📝 <span id="q10">¿Algo más que añadir?</span>
+      📝 ¿Algo más que añadir?
       <span class="char-count"><span id="extra-count">0</span>/1000</span>
     </label>
     <textarea name="extra" maxlength="1000" placeholder="Información adicional (opcional)"></textarea>
@@ -365,7 +363,7 @@ body.light label{color:#0f172a}
 
   <!-- Captcha -->
   <div class="step-card" data-step="11">
-    <label>🤖 <span id="qcaptcha">Verificación anti-spam</span> <span class="required">*</span></label>
+    <label>🤖 Verificación anti-spam <span class="required">*</span></label>
     <p style="margin:10px 0;color:rgba(255,255,255,.7)" id="captchaQuestion"></p>
     <input name="captcha" type="number" required placeholder="Tu respuesta">
     <div class="validation-msg" id="val-captcha"></div>
@@ -373,113 +371,26 @@ body.light label{color:#0f172a}
 
   <!-- Email opcional -->
   <div class="step-card" data-step="12">
-    <label>📧 <span id="qemail">Email (opcional para copia)</span></label>
+    <label>📧 Email (opcional para copia)</label>
     <input name="email" type="email" placeholder="tu@email.com">
-    <p style="font-size:.85rem;color:rgba(255,255,255,.6);margin-top:8px" id="emailNote">
+    <p style="font-size:.85rem;color:rgba(255,255,255,.6);margin-top:8px">
       Si proporcionas tu email, te enviaremos una copia de tu postulación
     </p>
   </div>
 
   <div class="controls">
-    <button type="button" id="prevBtn" class="btn ghost">⬅️ <span id="btnPrev">Anterior</span></button>
-    <button type="button" id="nextBtn" class="btn">➡️ <span id="btnNext">Siguiente</span></button>
-    <button type="submit" id="sendBtn" class="btn" style="display:none">🚀 <span id="btnSend">Enviar</span></button>
+    <button type="button" id="prevBtn" class="btn ghost">⬅️ Anterior</button>
+    <button type="button" id="nextBtn" class="btn">➡️ Siguiente</button>
+    <button type="submit" id="sendBtn" class="btn" style="display:none">🚀 Enviar</button>
   </div>
 </form>
 <footer>
-  <span id="footerText">Creado con ❤️ por</span> <a href="#" id="footerLink">GodestMC</a>
+  <span>Creado con ❤️ por</span> <a href="#">GodestMC</a>
 </footer>
 </div>
 
 <script>
 const webhookUrl = "https://discord.com/api/webhooks/1423267722862792805/2P-DP4l2RtxFF8oe6v2PfnOpT72ZnJQCC6rFu-X6oGY8iX_SbFwsRw6JEkFlsc4JJN6m";
-
-// Traducciones
-const translations = {
-  es: {
-    title: "⚡ Postulaciones GodestMC",
-    subtitle: "Completa el formulario para unirte al equipo",
-    stepText: "Pregunta",
-    qualityText: "📊 Calidad de postulación",
-    btnPrev: "Anterior",
-    btnNext: "Siguiente",
-    btnSend: "Enviar",
-    footerText: "Creado con ❤️ por",
-    q1: "¿Rol al que te postulas?",
-    q2: "Nick en Discord",
-    q3: "Nick en Minecraft",
-    q4: "¿Has sido staff/dev/beta previamente?",
-    q5: "País y zona horaria",
-    q6: "Horas semanales disponibles",
-    q7: "Días disponibles de la semana",
-    q8s: "¿Cómo resolverías un conflicto entre usuarios?",
-    q9s: "¿Por qué quieres ser staff?",
-    q8d: "¿Qué lenguajes de programación dominas?",
-    q9d: "¿Sabes manejar eventos de Minecraft?",
-    q8b: "¿Por qué quieres ser Beta Tester?",
-    q9b: "¿Prefieres testear mecánicas o reportar bugs?",
-    q10: "¿Algo más que añadir?",
-    qcaptcha: "Verificación anti-spam",
-    qemail: "Email (opcional para copia)",
-    emailNote: "Si proporcionas tu email, te enviaremos una copia de tu postulación"
-  },
-  en: {
-    title: "⚡ GodestMC Applications",
-    subtitle: "Complete the form to join the team",
-    stepText: "Question",
-    qualityText: "📊 Application Quality",
-    btnPrev: "Previous",
-    btnNext: "Next",
-    btnSend: "Submit",
-    footerText: "Created with ❤️ by",
-    q1: "Which role are you applying for?",
-    q2: "Discord Username",
-    q3: "Minecraft Username",
-    q4: "Have you been staff/dev/beta before?",
-    q5: "Country and timezone",
-    q6: "Weekly hours available",
-    q7: "Available days of the week",
-    q8s: "How would you resolve a conflict between users?",
-    q9s: "Why do you want to be staff?",
-    q8d: "What programming languages do you master?",
-    q9d: "Do you know how to handle Minecraft events?",
-    q8b: "Why do you want to be a Beta Tester?",
-    q9b: "Do you prefer testing mechanics or reporting bugs?",
-    q10: "Anything else to add?",
-    qcaptcha: "Anti-spam verification",
-    qemail: "Email (optional for copy)",
-    emailNote: "If you provide your email, we'll send you a copy of your application"
-  },
-  pt: {
-    title: "⚡ Aplicações GodestMC",
-    subtitle: "Complete o formulário para se juntar à equipe",
-    stepText: "Pergunta",
-    qualityText: "📊 Qualidade da aplicação",
-    btnPrev: "Anterior",
-    btnNext: "Próximo",
-    btnSend: "Enviar",
-    footerText: "Criado com ❤️ por",
-    q1: "Para qual cargo você está se candidatando?",
-    q2: "Nome de usuário no Discord",
-    q3: "Nome de usuário no Minecraft",
-    q4: "Você já foi staff/dev/beta antes?",
-    q5: "País e fuso horário",
-    q6: "Horas semanais disponíveis",
-    q7: "Dias disponíveis da semana",
-    q8s: "Como você resolveria um conflito entre usuários?",
-    q9s: "Por que você quer ser staff?",
-    q8d: "Quais linguagens de programação você domina?",
-    q9d: "Você sabe lidar com eventos do Minecraft?",
-    q8b: "Por que você quer ser Beta Tester?",
-    q9b: "Você prefere testar mecânicas ou reportar bugs?",
-    q10: "Algo mais a acrescentar?",
-    qcaptcha: "Verificação anti-spam",
-    qemail: "Email (opcional para cópia)",
-    emailNote: "Se você fornecer seu email, enviaremos uma cópia da sua aplicação"
-  }
-};
-
-let currentLang = 'es';
 
 // Variables globales
 const form = document.getElementById("applyForm");
@@ -532,45 +443,12 @@ themeToggle.onclick = () => {
   themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
 };
 
-// Idiomas
-document.querySelectorAll('.lang-btn').forEach(btn => {
-  btn.onclick = () => {
-    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentLang = btn.dataset.lang;
-    updateLanguage();
-  };
-});
-
-function updateLanguage() {
-  const t = translations[currentLang];
-  document.getElementById('title').textContent = t.title;
-  document.getElementById('subtitle').textContent = t.subtitle;
-  document.getElementById('stepText').innerHTML = `${t.stepText} <span id="currentStep">${stepIndex + 1}</span> de <span id="totalSteps">${getFilteredSteps().length}</span>`;
-  document.getElementById('qualityText').textContent = t.qualityText;
-  document.getElementById('btnPrev').textContent = t.btnPrev;
-  document.getElementById('btnNext').textContent = t.btnNext;
-  document.getElementById('btnSend').textContent = t.btnSend;
-  document.getElementById('footerText').textContent = t.footerText;
-  
-  Object.keys(t).forEach(key => {
-    if(key.startsWith('q') && document.getElementById(key)) {
-      document.getElementById(key).textContent = t[key];
-    }
-  });
-}
-
 // Captcha
 function generateCaptcha() {
   const num1 = Math.floor(Math.random() * 10) + 1;
   const num2 = Math.floor(Math.random() * 10) + 1;
   captchaAnswer = num1 + num2;
-  const questions = {
-    es: `¿Cuánto es ${num1} + ${num2}?`,
-    en: `What is ${num1} + ${num2}?`,
-    pt: `Quanto é ${num1} + ${num2}?`
-  };
-  document.getElementById('captchaQuestion').textContent = questions[currentLang];
+  document.getElementById('captchaQuestion').textContent = `¿Cuánto es ${num1} + ${num2}?`;
 }
 generateCaptcha();
 
@@ -844,7 +722,7 @@ form.onsubmit = async e => {
   }
   
   sendBtn.disabled = true;
-  sendBtn.innerHTML = '⏳ <span>Enviando...</span>';
+  sendBtn.innerHTML = '⏳ Enviando...';
   
   const fd = new FormData(form);
   const data = Object.fromEntries(fd.entries());
@@ -902,7 +780,7 @@ form.onsubmit = async e => {
   const payload = {
     username: "Postulaciones GodestMC",
     avatar_url: "https://i.imgur.com/8eU3Ggk.png",
-    content: `<@&YOUR_ADMIN_ROLE_ID> Nueva postulación recibida!`,
+    content: `@everyone Nueva postulación recibida!`,
     embeds: [{
       title: "📩 Nueva Postulación — GodestMC",
       description: `**Rol solicitado:** ${data.role.toUpperCase()}\n**ID:** \`${appId}\``,
@@ -931,42 +809,19 @@ form.onsubmit = async e => {
       createConfetti();
       vibrate();
       
-      const successMessages = {
-        es: {
-          title: "¡Postulación enviada!",
-          subtitle: "Tu solicitud ha sido recibida correctamente.",
-          reminder: "Recuerda abrir un ticket en Discord para completar el proceso con las pruebas finales.",
-          luck: "¡Buena suerte! 🍀"
-        },
-        en: {
-          title: "Application submitted!",
-          subtitle: "Your request has been received successfully.",
-          reminder: "Remember to open a ticket on Discord to complete the process with the final tests.",
-          luck: "Good luck! 🍀"
-        },
-        pt: {
-          title: "Aplicação enviada!",
-          subtitle: "Sua solicitação foi recebida com sucesso.",
-          reminder: "Lembre-se de abrir um ticket no Discord para completar o processo com os testes finais.",
-          luck: "Boa sorte! 🍀"
-        }
-      };
-      
-      const msg = successMessages[currentLang];
-      
       document.querySelector(".container").innerHTML = `
         <div class="success-screen">
           <h1 style="font-size:5rem;margin-bottom:20px;animation:bounce 1s ease">✅</h1>
-          <h2 style="font-size:2rem;margin-bottom:15px;color:#10b981">${msg.title}</h2>
+          <h2 style="font-size:2rem;margin-bottom:15px;color:#10b981">¡Postulación enviada!</h2>
           <p style="margin-top:12px;font-size:1.1rem;color:#e2e8f0;line-height:1.8;max-width:500px;margin-left:auto;margin-right:auto">
-            ${msg.subtitle}<br><br>
-            <strong>${msg.reminder}</strong>
+            Tu solicitud ha sido recibida correctamente.<br><br>
+            <strong>Recuerda abrir un ticket en Discord para completar el proceso con las pruebas finales.</strong>
           </p>
           <div class="app-id">
             ${appId}
           </div>
           <p style="margin-top:20px;font-size:1rem;color:rgba(255,255,255,0.7)">
-            ${msg.luck}
+            ¡Buena suerte! 🍀
           </p>
           <p style="margin-top:30px;font-size:0.9rem;color:rgba(255,255,255,0.5)">
             ⏱️ Completado en ${mins}m ${secs}s
@@ -979,13 +834,13 @@ form.onsubmit = async e => {
       const errText = await res.text();
       alert("❌ Error al enviar: " + res.status + "\n" + errText);
       sendBtn.disabled = false;
-      sendBtn.innerHTML = '🚀 <span id="btnSend">' + translations[currentLang].btnSend + '</span>';
+      sendBtn.innerHTML = '🚀 Enviar';
       vibrate();
     }
   } catch(err) {
     alert("❌ Error de conexión: " + err.message);
     sendBtn.disabled = false;
-    sendBtn.innerHTML = '🚀 <span id="btnSend">' + translations[currentLang].btnSend + '</span>';
+    sendBtn.innerHTML = '🚀 Enviar';
     vibrate();
   }
 };
