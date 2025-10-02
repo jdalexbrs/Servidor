@@ -88,7 +88,7 @@ footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,
 
   <!-- Pregunta 4 -->
   <div class="step-card" data-step="4">
-    <label>¿Has sido staff/dev/beta previamente? (indica servidor, fechas y rol)*</label>
+    <label>¿Has sido staff/dev/beta previamente?*</label>
     <textarea name="exp" required></textarea>
   </div>
 
@@ -110,17 +110,17 @@ footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,
     <input name="days" required placeholder="Ej: Lunes, Martes, Viernes">
   </div>
 
-  <!-- Staff-specific -->
+  <!-- Staff -->
   <div class="step-card staff-only" data-step="8">
     <label>En caso de que 2 usuarios se peleen, ¿qué harías?*</label>
     <textarea name="staff_conflict" required></textarea>
   </div>
   <div class="step-card staff-only" data-step="9">
-    <label>¿Por qué quieres ser staff dentro del servidor?*</label>
+    <label>¿Por qué quieres ser staff?*</label>
     <textarea name="staff_motive" required></textarea>
   </div>
 
-  <!-- Dev-specific -->
+  <!-- Dev -->
   <div class="step-card dev-only" data-step="8">
     <label>¿Qué lenguajes de programación dominas?*</label>
     <textarea name="dev_langs" required></textarea>
@@ -134,13 +134,13 @@ footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,
     </select>
   </div>
 
-  <!-- Beta-specific -->
+  <!-- Beta -->
   <div class="step-card beta-only" data-step="8">
-    <label>¿Por qué quieres ser Beta Tester en Godest?*</label>
+    <label>¿Por qué quieres ser Beta Tester?*</label>
     <textarea name="beta_motive" required></textarea>
   </div>
   <div class="step-card beta-only" data-step="9">
-    <label>¿Qué te interesa más: testear mecánicas o reportar errores visuales? ¿Por qué?*</label>
+    <label>¿Qué prefieres: testear mecánicas o reportar errores?*</label>
     <textarea name="beta_pref" required></textarea>
   </div>
 
@@ -161,6 +161,7 @@ footer{margin-top:20px;text-align:center;font-size:.8rem;color:rgba(255,255,255,
 
 <script>
 const webhookUrl = "https://discord.com/api/webhooks/1423267722862792805/2P-DP4l2RtxFF8oe6v2PfnOpT72ZnJQCC6rFu-X6oGY8iX_SbFwsRw6JEkFlsc4JJN6m";
+
 const form = document.getElementById("applyForm");
 const steps = Array.from(document.querySelectorAll(".step-card"));
 const bar = document.getElementById("bar");
@@ -173,7 +174,6 @@ const sendBtn = document.getElementById("sendBtn");
 let stepIndex = 0;
 let chosenRole = null;
 
-// Calcula total de pasos dinámicamente
 function getFilteredSteps() {
   return steps.filter(s => {
     if(s.classList.contains("staff-only")) return chosenRole==="staff";
@@ -224,38 +224,59 @@ prevBtn.onclick=()=>{
   }
 };
 
-form.onsubmit=async e=>{
-  e.preventDefault();
-  const fd = new FormData(form);
-  const data = Object.fromEntries(fd.entries());
-  const embed={
-    title:"📩 Nueva Postulación — GodestMC",
-    color:0x0ea5e9,
-    fields:Object.keys(data).map(k=>({name:k,value:data[k]||"—"})),
-    footer:{text:"GodestMC — Sistema de Postulación"},
-    timestamp:new Date()
-  };
-  try{
-    await fetch(webhookUrl,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({embeds:[embed]})
-    });
-    document.querySelector(".container").innerHTML = `
-      <div style="text-align:center;padding:40px">
-        <h1>✅ Postulación enviada</h1>
-        <p style="margin-top:12px;font-size:1.1rem;color:#e2e8f0">
-          Recuerda abrir un ticket en Discord, allí se te harán las últimas pruebas.
-        </p>
-      </div>
-    `;
-  }catch(err){alert("❌ Error al enviar: "+err);}
-};
-
-// Detecta rol en primera pregunta
 document.querySelector("select[name='role']").addEventListener("change", e=>{
   chosenRole = e.target.value;
 });
+
+form.onsubmit = async e => {
+  e.preventDefault();
+  const fd = new FormData(form);
+  const data = Object.fromEntries(fd.entries());
+
+  // Campos embed
+  const fields = Object.entries(data).map(([key,value])=>({
+    name: key.replace(/_/g," ").toUpperCase().slice(0,256),
+    value: value.slice(0,1024) || "—",
+    inline:false
+  }));
+
+  const payload = {
+    username: "Postulaciones Bot",
+    avatar_url: "https://i.imgur.com/8eU3Ggk.png",
+    embeds:[{
+      title:"📩 Nueva Postulación — GodestMC",
+      color:0x0ea5e9,
+      fields,
+      footer:{text:"GodestMC — Sistema de Postulación"},
+      timestamp: new Date().toISOString()
+    }]
+  };
+
+  try {
+    const res = await fetch(webhookUrl,{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body: JSON.stringify(payload)
+    });
+
+    if(res.ok){
+      document.querySelector(".container").innerHTML = `
+        <div style="text-align:center;padding:40px">
+          <h1>✅ Postulación enviada</h1>
+          <p style="margin-top:12px;font-size:1.1rem;color:#e2e8f0">
+            Recuerda abrir un ticket en Discord, allí se te harán las últimas pruebas.
+          </p>
+        </div>
+      `;
+    } else {
+      const errText = await res.text();
+      alert("❌ Error al enviar: "+res.status+" "+errText);
+    }
+  } catch(err){
+    alert("❌ Error de red: "+err);
+  }
+};
+
 showStep(stepIndex);
 </script>
 </body>
